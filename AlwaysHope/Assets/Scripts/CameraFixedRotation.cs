@@ -30,11 +30,11 @@ public class CameraFixedRotation : MonoBehaviour
         //increments counter;
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
-            counter += 0.5f;
+            counter += 0.2f;
         }
         else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
-            counter -= 0.5f;
+            counter -= 0.2f;
         }
 
         //camera Zoom
