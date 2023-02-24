@@ -11,8 +11,7 @@ public class PauseManager : MonoBehaviour
     public void ReturnToMenu()
     {
         Time.timeScale = 1.0f;
-        Destroy(GameObject.Find("Checkpoint Tracker")); // destroy checkpoint tracker so it can be recreated next time the game is started
-        SceneManager.LoadScene("Main Menu");
+        SceneManager.LoadScene("MainMenu");
     }
 
     /// <summary>
