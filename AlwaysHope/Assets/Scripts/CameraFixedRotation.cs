@@ -63,6 +63,9 @@ public class CameraFixedRotation : MonoBehaviour
         {
             counter = 0.0f;
         }
+        //Clamp XRotation to prevent Axis Flipping
+        xRotate = Mathf.Clamp(xRotate, -35, 35);
+
         //convert x and y to radians
         float radians = counter * (Mathf.PI / 180.0f);
         float x = Mathf.Sin(radians) * radius;
