@@ -9,7 +9,10 @@ public class MouseRaycast : MonoBehaviour
     RaycastHit hitInfo;
     [SerializeField]
     Material materialTest;
+    public GameObject grabbedObject;
+    public Vector3 grabbedScreenPos;
     #endregion Fields
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,8 +22,21 @@ public class MouseRaycast : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-            RaycastTest();
+        if (grabbedObject != null)
+        {
+            grabbedScreenPos = Camera.main.WorldToScreenPoint(grabbedObject.transform.position);
+            grabbedObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, grabbedScreenPos.z));
+            if (Input.GetKeyUp(KeyCode.Mouse0))
+            {
+                grabbedObject = null;
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+                RaycastTest();
+        }
+
 
     }
 
@@ -38,6 +54,13 @@ public class MouseRaycast : MonoBehaviour
                 Debug.Log("It should work");
                 hitObject.GetComponent<MeshRenderer>().material = materialTest;
             }
+            if (hitObject.tag.Equals("Interactable"))
+            {
+                //Debug.Log("It should work");
+                grabbedObject = hitObject;
+                hitObject.GetComponent<MeshRenderer>().material = materialTest;
+            }
         }
+
     }
 }

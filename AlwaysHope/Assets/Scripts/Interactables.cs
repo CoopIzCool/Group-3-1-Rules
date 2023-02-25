@@ -8,6 +8,7 @@ public class Interactables : MonoBehaviour
     // Establish necessary Fields
     public GameObject targetObject;
     public List<GameObject> placedLocations;
+    public List<float> timedLocations;
     //public GameObject[] placedLocations;
     public bool isSolved;
     public bool isPositive; // For positive vs harmful items
