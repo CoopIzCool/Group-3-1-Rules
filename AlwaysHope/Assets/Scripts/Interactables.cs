@@ -12,6 +12,9 @@ public class Interactables : MonoBehaviour
     public bool isSolved;
     public bool isPositive; // For positive vs harmful items
 
+    [SerializeField] private AudioSource src;
+    [SerializeField] private AudioClip solvedClip;
+
     #endregion Fields
 
     // Start is called before the first frame update
@@ -69,6 +72,8 @@ public class Interactables : MonoBehaviour
             if (collision.gameObject == targetObject) // Checking to see if the object is our target object
             {
                 isSolved = true;
+                src.clip = solvedClip;
+                src.Play();
             }
         }
 

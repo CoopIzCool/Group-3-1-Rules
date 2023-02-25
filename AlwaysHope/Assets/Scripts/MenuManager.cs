@@ -7,6 +7,7 @@ using TMPro;
 
 public class MenuManager : MonoBehaviour
 {
+    #region Fields
     /// <summary>
     /// First slider shown on the options menu
     /// </summary>
@@ -40,11 +41,20 @@ public class MenuManager : MonoBehaviour
     /// </summary>
     [SerializeField] private AudioClip optionSFX;
 
+    /// <summary>
+    /// CanvasGroup of the initial warning screen
+    /// </summary>
     private CanvasGroup canvas;
+    /// <summary>
+    /// Is the warning fading out
+    /// </summary>
     private bool fadeOut;
 
-
+    /// <summary>
+    /// Audio player component on the manager object
+    /// </summary>
     private AudioSource audioSource;
+    #endregion Fields
     // Start is called before the first frame update
     void Start()
     {
@@ -74,6 +84,10 @@ public class MenuManager : MonoBehaviour
         AudioListener.volume = optionOneSlider.value;
     }
 
+    /// <summary>
+    /// Event whenever the player clicks the Play button
+    /// Plays a corresponding audio clip and goes to the desired level scene
+    /// </summary>
     public void PlayButtonClicked()
     {
         audioSource.clip = playSFX;
@@ -81,6 +95,10 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadSceneAsync("Ryan Test Scene");
     }
 
+    /// <summary>
+    /// Event whenever the player clicks the Exit button
+    /// Plays a corresponding audio clip and then exits application
+    /// </summary>
     public void ExitButtonClicked()
     {
         audioSource.clip = exitSFX;
@@ -88,6 +106,10 @@ public class MenuManager : MonoBehaviour
         Application.Quit();
     }
 
+    /// <summary>
+    /// Event whenever the player clicks the Option or Back button
+    /// Plays a corresponding audio clip and then swaps between the options page and the landing page
+    /// </summary>
     public void OptionsButtonClicked()
     {
         audioSource.clip = optionSFX;
@@ -96,6 +118,9 @@ public class MenuManager : MonoBehaviour
         optionMenu.SetActive(!optionMenu.activeInHierarchy);
     }
 
+    /// <summary>
+    /// Fades out the warning screen to the main menu
+    /// </summary>
     public void PreloadButtonClicked()
     {
         mainMenu.SetActive(true);
