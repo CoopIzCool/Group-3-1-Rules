@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Interactables : MonoBehaviour
 {
+    #region Fields
     // Establish necessary Fields
     public GameObject targetObject;
     public List<GameObject> placedLocations;
     //public GameObject[] placedLocations;
     public bool isSolved;
+
+    #endregion Fields
 
     // Start is called before the first frame update
     void Start()
@@ -24,14 +27,42 @@ public class Interactables : MonoBehaviour
             this.gameObject.SetActive(false);
             // Change the fov to be clearer
         }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z + 1);
+        }
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            this.transform.position = new Vector3(this.transform.position.x - 1, this.transform.position.y, this.transform.position.z);
+        }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z-1);
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            this.transform.position = new Vector3(this.transform.position.x + 1, this.transform.position.y, this.transform.position.z);
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y-1, this.transform.position.z);
+        }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y+1, this.transform.position.z);
+        }
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        if(collision.gameObject == targetObject)
-        {
-            // Add to the list, then solve it
-            isSolved = true;
+        if (!placedLocations.Contains(collision.gameObject)) // If the object it is currently colliding with is not in the list already, then add it to the list.
+        { 
+            placedLocations.Add(collision.gameObject);
+            if (collision.gameObject == targetObject) // Checking to see if the object is our target object
+            {
+                isSolved = true;
+            }
         }
+
     }
 }
