@@ -10,6 +10,7 @@ public class Interactables : MonoBehaviour
     public List<GameObject> placedLocations;
     //public GameObject[] placedLocations;
     public bool isSolved;
+    public bool isPositive; // For positive vs harmful items
 
     #endregion Fields
 
@@ -25,7 +26,14 @@ public class Interactables : MonoBehaviour
         if (isSolved)
         {
             this.gameObject.SetActive(false);
-            // Change the fov to be clearer
+            if (isPositive)
+            {
+                // Make FOV more clear
+            }
+            else
+            {
+                // Make FOV less clear
+            }
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
