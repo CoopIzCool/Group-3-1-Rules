@@ -11,24 +11,39 @@ public class MouseRaycast : MonoBehaviour
     Material materialTest;
     public GameObject grabbedObject;
     public Vector3 grabbedScreenPos;
+    private float zDepth = 0;
+    private float xBound = 4.5f;
+    private float zBound = 4.5f;
+    [SerializeField]
+    CameraFixedRotation cameraRotationScript;
     #endregion Fields
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
     {
         if (grabbedObject != null)
         {
-            grabbedScreenPos = Camera.main.WorldToScreenPoint(grabbedObject.transform.position);
-            grabbedObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, grabbedScreenPos.z));
+            //grabbedScreenPos = Camera.main.WorldToScreenPoint(grabbedObject.transform.position);
+            Debug.Log(grabbedScreenPos.z);
+            grabbedObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, grabbedScreenPos.z + zDepth));
+            float clampedX = Mathf.Clamp(grabbedObject.transform.position.x, xBound * -1, xBound);
+            float clampedY = Mathf.Clamp(grabbedObject.transform.position.y, -1.5f, 3);
+            float clampedZ = Mathf.Clamp(grabbedObject.transform.position.z, zBound * -1, zBound);
+            grabbedObject.transform.position = new Vector3(clampedX, clampedY, clampedZ);
             if (Input.GetKeyUp(KeyCode.Mouse0))
             {
                 grabbedObject = null;
+                cameraRotationScript.ItemIsHeld = false;
+                zDepth = 0;
+            }
+            if (Input.mouseScrollDelta.y > 0.0f )
+            {
+                Debug.Log("Wee");
+                zDepth += 0.2f;
+            }
+            else if (Input.mouseScrollDelta.y < 0.0f )
+            {
+                zDepth -= 0.2f;
             }
         }
         else
@@ -59,6 +74,8 @@ public class MouseRaycast : MonoBehaviour
                 //Debug.Log("It should work");
                 grabbedObject = hitObject;
                 hitObject.GetComponent<MeshRenderer>().material = materialTest;
+                cameraRotationScript.ItemIsHeld = true;
+                grabbedScreenPos = Camera.main.WorldToScreenPoint(grabbedObject.transform.position);
             }
         }
 

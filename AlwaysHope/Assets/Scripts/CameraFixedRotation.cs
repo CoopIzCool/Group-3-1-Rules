@@ -14,7 +14,15 @@ public class CameraFixedRotation : MonoBehaviour
     private float yPos;
     private float xRotate;
     private float xRotateSensitivity;
+    private bool itemHeld;
     #endregion Fields
+
+    #region Properties
+    public bool ItemIsHeld
+    {
+        set { itemHeld = value; }
+    }
+    #endregion Properties
     // Start is called before the first frame update
     void Start()
     {
@@ -37,25 +45,29 @@ public class CameraFixedRotation : MonoBehaviour
             counter -= 0.2f;
         }
 
-        //camera Zoom
-        if (Input.mouseScrollDelta.y > 0.0f && GetComponent<Camera>().fieldOfView > 20.0f)
+        //If the player is not holding an item
+        if(!itemHeld)
         {
-            GetComponent<Camera>().fieldOfView -= 0.5f;
-            xRotateSensitivity -= 0.02f;
-        }
-        else if (Input.mouseScrollDelta.y < 0.0f && GetComponent<Camera>().fieldOfView < 90.0f)
-        {
-            GetComponent<Camera>().fieldOfView += 0.5f;
-            xRotateSensitivity += 0.02f;
-        }
-        //changes cameras horizantal view
-        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
-        {
-            xRotate -= 0.5f;
-        }
-        else if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
-        {
-            xRotate += 0.5f;
+            //camera Zoom
+            if (Input.mouseScrollDelta.y > 0.0f && GetComponent<Camera>().fieldOfView > 20.0f)
+            {
+                GetComponent<Camera>().fieldOfView -= 0.5f;
+                xRotateSensitivity -= 0.02f;
+            }
+            else if (Input.mouseScrollDelta.y < 0.0f && GetComponent<Camera>().fieldOfView < 90.0f)
+            {
+                GetComponent<Camera>().fieldOfView += 0.5f;
+                xRotateSensitivity += 0.02f;
+            }
+            //changes cameras horizantal view
+            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+            {
+                xRotate -= 0.5f;
+            }
+            else if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+            {
+                xRotate += 0.5f;
+            }
         }
 
         //reset counter for easy calculations

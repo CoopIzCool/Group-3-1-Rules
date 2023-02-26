@@ -268,6 +268,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   materialTest: {fileID: 2100000, guid: 6389b6aa468d6654183d77270d9e5d19, type: 2}
+  grabbedObject: {fileID: 0}
+  grabbedScreenPos: {x: 0, y: 0, z: 0}
+  cameraRotationScript: {fileID: 1676414604}
 --- !u!4 &421130573
 Transform:
   m_ObjectHideFlags: 0
@@ -453,6 +456,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetObject: {fileID: 1690738183}
   placedLocations: []
+  timedLocations: []
   isSolved: 0
   isPositive: 0
   src: {fileID: 1765502187}
