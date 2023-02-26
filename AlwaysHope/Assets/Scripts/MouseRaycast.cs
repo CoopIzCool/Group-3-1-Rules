@@ -24,21 +24,25 @@ public class MouseRaycast : MonoBehaviour
         if (grabbedObject != null)
         {
             //grabbedScreenPos = Camera.main.WorldToScreenPoint(grabbedObject.transform.position);
-            Debug.Log(grabbedScreenPos.z);
             grabbedObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, grabbedScreenPos.z + zDepth));
+
+            //Clamp the position to prevent the object from falling out of bounds
             float clampedX = Mathf.Clamp(grabbedObject.transform.position.x, xBound * -1, xBound);
             float clampedY = Mathf.Clamp(grabbedObject.transform.position.y, -1.5f, 3);
             float clampedZ = Mathf.Clamp(grabbedObject.transform.position.z, zBound * -1, zBound);
             grabbedObject.transform.position = new Vector3(clampedX, clampedY, clampedZ);
+
+            //release the object if the mouse is let go
             if (Input.GetKeyUp(KeyCode.Mouse0))
             {
                 grabbedObject = null;
                 cameraRotationScript.ItemIsHeld = false;
                 zDepth = 0;
             }
+
+            //Scroll depth of the zPosition 
             if (Input.mouseScrollDelta.y > 0.0f )
             {
-                Debug.Log("Wee");
                 zDepth += 0.2f;
             }
             else if (Input.mouseScrollDelta.y < 0.0f )
@@ -74,6 +78,7 @@ public class MouseRaycast : MonoBehaviour
                 //Debug.Log("It should work");
                 grabbedObject = hitObject;
                 hitObject.GetComponent<MeshRenderer>().material = materialTest;
+                //bool to flip scroll wheel functionallity
                 cameraRotationScript.ItemIsHeld = true;
                 grabbedScreenPos = Camera.main.WorldToScreenPoint(grabbedObject.transform.position);
             }
