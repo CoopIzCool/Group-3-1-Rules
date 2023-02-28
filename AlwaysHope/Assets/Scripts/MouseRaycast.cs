@@ -16,6 +16,7 @@ public class MouseRaycast : MonoBehaviour
     private float zBound = 4.5f;
     [SerializeField]
     CameraFixedRotation cameraRotationScript;
+    [SerializeField] public int interactableSolvedCount = 0;
     #endregion Fields
 
     // Update is called once per frame
@@ -28,7 +29,7 @@ public class MouseRaycast : MonoBehaviour
 
             //Clamp the position to prevent the object from falling out of bounds
             float clampedX = Mathf.Clamp(grabbedObject.transform.position.x, xBound * -1, xBound);
-            float clampedY = Mathf.Clamp(grabbedObject.transform.position.y, -1.5f, 3);
+            float clampedY = Mathf.Clamp(grabbedObject.transform.position.y, .5f, 5);
             float clampedZ = Mathf.Clamp(grabbedObject.transform.position.z, zBound * -1, zBound);
             grabbedObject.transform.position = new Vector3(clampedX, clampedY, clampedZ);
 
@@ -55,7 +56,12 @@ public class MouseRaycast : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Mouse0))
                 RaycastTest();
         }
+        if(interactableSolvedCount == 4)
+        {
+            // End the game
+            Debug.Log("Hit 4");
 
+        }
 
     }
 

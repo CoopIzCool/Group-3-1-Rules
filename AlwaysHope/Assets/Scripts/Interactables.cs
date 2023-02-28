@@ -15,7 +15,7 @@ public class Interactables : MonoBehaviour
 
     [SerializeField] private AudioSource src;
     [SerializeField] private AudioClip solvedClip;
-
+    [SerializeField] public GameObject mouse;
     #endregion Fields
 
     // Start is called before the first frame update
@@ -75,6 +75,7 @@ public class Interactables : MonoBehaviour
                 isSolved = true;
                 src.clip = solvedClip;
                 src.Play();
+                mouse.GetComponent<MouseRaycast>().interactableSolvedCount++;
             }
         }
 
