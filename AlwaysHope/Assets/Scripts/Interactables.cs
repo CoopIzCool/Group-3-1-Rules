@@ -40,33 +40,6 @@ public class Interactables : MonoBehaviour
                 // Make FOV less clear
             }
         }
-
-        //Depreciated code originally used for interactable movement
-        /*
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z + 1);
-        }
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            this.transform.position = new Vector3(this.transform.position.x - 1, this.transform.position.y, this.transform.position.z);
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z-1);
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            this.transform.position = new Vector3(this.transform.position.x + 1, this.transform.position.y, this.transform.position.z);
-        }
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y-1, this.transform.position.z);
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y+1, this.transform.position.z);
-        }*/
     }
 
     private void OnCollisionStay(Collision collision)
