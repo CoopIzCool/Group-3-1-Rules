@@ -92,7 +92,7 @@ public class MenuManager : MonoBehaviour
     {
         audioSource.clip = playSFX;
         audioSource.Play();
-        SceneManager.LoadSceneAsync("Ryan Test Scene");
+        SceneManager.LoadSceneAsync("LevelOne");
     }
 
     /// <summary>
