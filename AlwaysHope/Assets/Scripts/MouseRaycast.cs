@@ -71,13 +71,13 @@ public class MouseRaycast : MonoBehaviour
             if (hitObject.tag.Equals("Test"))
             {
                 Debug.Log("It should work");
-                hitObject.GetComponent<MeshRenderer>().material = materialTest;
+                //hitObject.GetComponent<MeshRenderer>().material = materialTest;
             }
             if (hitObject.tag.Equals("Interactable"))
             {
                 //Debug.Log("It should work");
                 grabbedObject = hitObject;
-                hitObject.GetComponent<MeshRenderer>().material = materialTest;
+                //hitObject.GetComponent<MeshRenderer>().material = materialTest;
                 //bool to flip scroll wheel functionallity
                 cameraRotationScript.ItemIsHeld = true;
                 grabbedScreenPos = Camera.main.WorldToScreenPoint(grabbedObject.transform.position);
