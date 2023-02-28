@@ -16,6 +16,7 @@ public class Interactables : MonoBehaviour
     [SerializeField] private AudioSource src;
     [SerializeField] private AudioClip solvedClip;
     [SerializeField] public GameObject mouse;
+    [SerializeField] private MeshRenderer placedMesh;
     #endregion Fields
 
     // Start is called before the first frame update
@@ -77,6 +78,7 @@ public class Interactables : MonoBehaviour
                 src.Play();
                 MouseRaycast mouseRay = mouse.GetComponent<MouseRaycast>();
                 mouseRay.interactableSolvedCount++;
+                placedMesh.enabled = true;
                 if(mouseRay.interactableSolvedCount == mouseRay.interactableSolvedGoal)
                 {
                     Debug.Log("completed level");

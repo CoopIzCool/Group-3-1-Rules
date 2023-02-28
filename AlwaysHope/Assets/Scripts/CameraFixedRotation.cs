@@ -38,11 +38,11 @@ public class CameraFixedRotation : MonoBehaviour
         //increments counter;
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
-            counter += 0.2f;
+            counter += 20.0f * Time.deltaTime;
         }
         else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
-            counter -= 0.2f;
+            counter -= 20.0f * Time.deltaTime;
         }
 
         //If the player is not holding an item
@@ -51,22 +51,22 @@ public class CameraFixedRotation : MonoBehaviour
             //camera Zoom
             if (Input.mouseScrollDelta.y > 0.0f && GetComponent<Camera>().fieldOfView > 20.0f)
             {
-                GetComponent<Camera>().fieldOfView -= 0.5f;
-                xRotateSensitivity -= 0.02f;
+                GetComponent<Camera>().fieldOfView -= 175.0f * Time.deltaTime;
+                xRotateSensitivity -= 5.00f * Time.deltaTime;
             }
             else if (Input.mouseScrollDelta.y < 0.0f && GetComponent<Camera>().fieldOfView < 90.0f)
             {
-                GetComponent<Camera>().fieldOfView += 0.5f;
-                xRotateSensitivity += 0.02f;
+                GetComponent<Camera>().fieldOfView += 175.0f * Time.deltaTime;
+                xRotateSensitivity += 5.00f * Time.deltaTime;
             }
             //changes cameras horizantal view
             if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
             {
-                xRotate -= 0.5f;
+                xRotate -= 25.0f * Time.deltaTime;
             }
             else if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
             {
-                xRotate += 0.5f;
+                xRotate += 25.0f * Time.deltaTime;
             }
         }
 
