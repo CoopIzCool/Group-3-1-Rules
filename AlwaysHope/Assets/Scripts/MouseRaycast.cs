@@ -17,7 +17,11 @@ public class MouseRaycast : MonoBehaviour
     [SerializeField]
     CameraFixedRotation cameraRotationScript;
     [SerializeField] public int interactableSolvedCount = 0;
+    [SerializeField] public int interactableSolvedGoal = 1;
+    [SerializeField] private GameObject endScreen;
+    [SerializeField] private AudioClip victoryClip;
     #endregion Fields
+    public AudioClip VictoryClip { get { return victoryClip; } }
 
     // Update is called once per frame
     void Update()
@@ -56,11 +60,10 @@ public class MouseRaycast : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Mouse0))
                 RaycastTest();
         }
-        if(interactableSolvedCount == 4)
+        if(interactableSolvedCount == interactableSolvedGoal)
         {
-            // End the game
-            Debug.Log("Hit 4");
-
+            endScreen.SetActive(true);
+            //Time.timeScale = 0f;
         }
 
     }

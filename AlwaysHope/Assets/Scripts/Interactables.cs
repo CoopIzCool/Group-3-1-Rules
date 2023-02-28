@@ -75,9 +75,22 @@ public class Interactables : MonoBehaviour
                 isSolved = true;
                 src.clip = solvedClip;
                 src.Play();
-                mouse.GetComponent<MouseRaycast>().interactableSolvedCount++;
+                MouseRaycast mouseRay = mouse.GetComponent<MouseRaycast>();
+                mouseRay.interactableSolvedCount++;
+                if(mouseRay.interactableSolvedCount == mouseRay.interactableSolvedGoal)
+                {
+                    Debug.Log("completed level");
+                    StartCoroutine(PlayVictory(mouseRay.VictoryClip.length));
+                }
             }
         }
 
+    }
+
+    private IEnumerator PlayVictory(float time)
+    {
+        yield return new WaitForSeconds(time);
+        src.clip = mouse.GetComponent<MouseRaycast>().VictoryClip;
+        src.Play();
     }
 }
