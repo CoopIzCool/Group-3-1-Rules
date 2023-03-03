@@ -15,6 +15,9 @@ public class CameraFixedRotation : MonoBehaviour
     private float xRotate;
     private float xRotateSensitivity;
     private bool itemHeld;
+    [SerializeField]
+    private Transform centerPoint;
+
     #endregion Fields
 
     #region Properties
@@ -29,6 +32,7 @@ public class CameraFixedRotation : MonoBehaviour
         radius = 12.0f;
         yPos = transform.position.y;
         counter = 180;
+        xRotate = Mathf.PI / 4;
         xRotateSensitivity = 1.0f;
     }
 
@@ -59,32 +63,34 @@ public class CameraFixedRotation : MonoBehaviour
                 GetComponent<Camera>().fieldOfView += 175.0f * Time.deltaTime;
                 xRotateSensitivity += 5.00f * Time.deltaTime;
             }
-            //changes cameras horizantal view
-            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
-            {
-                xRotate -= 25.0f * Time.deltaTime;
-            }
-            else if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
-            {
-                xRotate += 25.0f * Time.deltaTime;
-            }
+
+        }
+        //changes cameras horizantal view
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+        {
+            xRotate -= 0.5f * Time.deltaTime;
+        }
+        else if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+        {
+            xRotate += 0.5f * Time.deltaTime;
         }
 
         //reset counter for easy calculations
+        
         if (counter >= 360.0f || counter <= -360.0f)
         {
             counter = 0.0f;
         }
         //Clamp XRotation to prevent Axis Flipping
-        xRotate = Mathf.Clamp(xRotate, -35, 35);
-
+        xRotate = Mathf.Clamp(xRotate, 0.1f, Mathf.PI/2);
+        Debug.Log(xRotate);
         //convert x and y to radians
         float radians = counter * (Mathf.PI / 180.0f);
-        float x = Mathf.Sin(radians) * radius;
-        float z = Mathf.Cos(radians) * radius;
+        float x = Mathf.Sin(radians) * Mathf.Sin(xRotate) * radius;
+        float y = Mathf.Cos(xRotate) * radius;
+        float z = Mathf.Cos(radians) * Mathf.Sin(xRotate) * radius;
         //set position and rotation
-        transform.position = new Vector3(x, yPos, z);
-        transform.rotation = Quaternion.Euler(xRotate * xRotateSensitivity, counter - 180, 0);
-
+        transform.position = new Vector3(x, y, z);
+        transform.LookAt(centerPoint);
     }
 }
