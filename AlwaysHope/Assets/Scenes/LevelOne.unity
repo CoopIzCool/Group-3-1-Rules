@@ -279,6 +279,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f4c45d9628ed1245b63bebd4225056d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timerTracking:
+  - name: 
+    times: []
+  locationTracking:
+  - name: 
+  trackableObjects:
+  - {fileID: 2129977989}
+  - {fileID: 717910842}
+  - {fileID: 144315475}
+  - {fileID: 157820462}
+  trackableLocations:
+  - {fileID: 614164785}
+  - {fileID: 228715465}
+  - {fileID: 553336461}
+  - {fileID: 406183858}
+  - {fileID: 1185450311}
+  - {fileID: 1078472366}
+  raycastMgr: {fileID: 1374126398}
+  camMgr: {fileID: 856780549}
 --- !u!1 &65500942
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,6 +492,7 @@ MonoBehaviour:
   solvedClip: {fileID: 8300000, guid: 57d3958d8795f4a48916610ccd0b52ef, type: 3}
   mouse: {fileID: 1374126397}
   placedMesh: {fileID: 577234889}
+  trackTime: 0
 --- !u!23 &144315476
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -608,6 +628,7 @@ MonoBehaviour:
   solvedClip: {fileID: 8300000, guid: 57d3958d8795f4a48916610ccd0b52ef, type: 3}
   mouse: {fileID: 1374126397}
   placedMesh: {fileID: 1096972162}
+  trackTime: 0
 --- !u!65 &157820463
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -732,6 +753,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6792928eb5b69744d9211276c282fab8, type: 3}
   m_PrefabInstance: {fileID: 223270913}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &228715465 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3cbfa8f66cf8d3c4e9192508e58b5f96, type: 3}
+  m_PrefabInstance: {fileID: 623173783}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &240188246 stripped
 GameObject:
@@ -1158,6 +1184,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ae882dfd8d375643aecf62c7755a05c, type: 3}
+--- !u!1 &406183858 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e2ac130e25ac6234ca70a81c8ace65a6, type: 3}
+  m_PrefabInstance: {fileID: 1964902547}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &428573491
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1680,6 +1711,11 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!1 &614164785 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6792928eb5b69744d9211276c282fab8, type: 3}
+  m_PrefabInstance: {fileID: 223270913}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &620220894
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1980,6 +2016,7 @@ MonoBehaviour:
   solvedClip: {fileID: 8300000, guid: 57d3958d8795f4a48916610ccd0b52ef, type: 3}
   mouse: {fileID: 1374126397}
   placedMesh: {fileID: 240188249}
+  trackTime: 0
 --- !u!33 &717910843
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2380,6 +2417,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 3
   centerPoint: {fileID: 1940365645}
+  inactiveTime: 0
 --- !u!1 &909442353 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5745747542826713164, guid: 5ae882dfd8d375643aecf62c7755a05c, type: 3}
@@ -2497,6 +2535,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1051796980}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1078472366 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 99ce0feb910e11f41ab7f75268b4b0ac, type: 3}
+  m_PrefabInstance: {fileID: 1593138414}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1096972157
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2651,6 +2694,11 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!1 &1185450311 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 011dc920b40df3345bbeb2e4059673b4, type: 3}
+  m_PrefabInstance: {fileID: 771666408}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1309022891
 GameObject:
   m_ObjectHideFlags: 0
@@ -2891,6 +2939,7 @@ MonoBehaviour:
   interactableSolvedGoal: 4
   endScreen: {fileID: 909442353}
   victoryClip: {fileID: 8300000, guid: 298da236fd5438e4885f84d067e53d47, type: 3}
+  inactiveTime: 180
 --- !u!4 &1374126399
 Transform:
   m_ObjectHideFlags: 0
@@ -3908,6 +3957,7 @@ MonoBehaviour:
   solvedClip: {fileID: 8300000, guid: 57d3958d8795f4a48916610ccd0b52ef, type: 3}
   mouse: {fileID: 1374126397}
   placedMesh: {fileID: 1349113006}
+  trackTime: 0
 --- !u!54 &2129977991
 Rigidbody:
   m_ObjectHideFlags: 0

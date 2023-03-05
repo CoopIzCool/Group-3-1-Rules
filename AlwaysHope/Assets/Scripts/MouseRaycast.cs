@@ -20,14 +20,22 @@ public class MouseRaycast : MonoBehaviour
     [SerializeField] public int interactableSolvedGoal = 1;
     [SerializeField] private GameObject endScreen;
     [SerializeField] private AudioClip victoryClip;
+
+    // Inactive timer mechanics
+    [SerializeField] private float inactiveTime;
+    private float activeTimer;
+    private bool mouseActive = true;
     #endregion Fields
     public AudioClip VictoryClip { get { return victoryClip; } }
+    public bool MouseActive { get { return mouseActive; } }
 
     // Update is called once per frame
     void Update()
     {
+        bool isActive = false;
         if (grabbedObject != null)
         {
+            SetActive();
             //grabbedScreenPos = Camera.main.WorldToScreenPoint(grabbedObject.transform.position);
             grabbedObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, grabbedScreenPos.z + zDepth));
 
@@ -58,7 +66,10 @@ public class MouseRaycast : MonoBehaviour
         else
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
                 RaycastTest();
+                SetActive();
+            }
         }
         if(interactableSolvedCount == interactableSolvedGoal)
         {
@@ -66,6 +77,10 @@ public class MouseRaycast : MonoBehaviour
             //Time.timeScale = 0f;
         }
 
+        if(!isActive && activeTimer < inactiveTime)
+        {
+
+        }
     }
 
     private void RaycastTest()
@@ -93,5 +108,11 @@ public class MouseRaycast : MonoBehaviour
             }
         }
 
+    }
+
+    public void SetActive()
+    {
+        mouseActive = true;
+        activeTimer = 0f;
     }
 }
