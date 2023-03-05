@@ -11,9 +11,9 @@ public class CameraFixedRotation : MonoBehaviour
     [SerializeField]
     private float radius;
     private float counter;
-    private float yPos;
+    //private float yPos;
     private float xRotate;
-    private float xRotateSensitivity;
+    //private float xRotateSensitivity;
     private bool itemHeld;
     [SerializeField]
     private Transform centerPoint;
@@ -30,10 +30,10 @@ public class CameraFixedRotation : MonoBehaviour
     void Start()
     {
         radius = 12.0f;
-        yPos = transform.position.y;
+        //yPos = transform.position.y;
         counter = 180;
         xRotate = Mathf.PI / 4;
-        xRotateSensitivity = 1.0f;
+        //xRotateSensitivity = 1.0f;
     }
 
     // Update is called once per frame
@@ -55,13 +55,13 @@ public class CameraFixedRotation : MonoBehaviour
             //camera Zoom
             if (Input.mouseScrollDelta.y > 0.0f && GetComponent<Camera>().fieldOfView > 20.0f)
             {
-                GetComponent<Camera>().fieldOfView -= 175.0f * Time.deltaTime;
-                xRotateSensitivity -= 5.00f * Time.deltaTime;
+                GetComponent<Camera>().fieldOfView -= 280.0f * Time.deltaTime;
+                //xRotateSensitivity -= 8.00f * Time.deltaTime;
             }
             else if (Input.mouseScrollDelta.y < 0.0f && GetComponent<Camera>().fieldOfView < 90.0f)
             {
-                GetComponent<Camera>().fieldOfView += 175.0f * Time.deltaTime;
-                xRotateSensitivity += 5.00f * Time.deltaTime;
+                GetComponent<Camera>().fieldOfView += 280.0f * Time.deltaTime;
+                //xRotateSensitivity += 8.00f * Time.deltaTime;
             }
 
         }
