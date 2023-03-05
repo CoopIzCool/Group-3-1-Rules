@@ -12,7 +12,8 @@ public class Interactables : MonoBehaviour
     //public GameObject[] placedLocations;
     public bool isSolved;
     public bool isPositive; // For positive vs harmful items
-
+    [SerializeField] public bool isPreReqMet = true;
+    [SerializeField] private bool isRequired;
     [SerializeField] private AudioSource src;
     [SerializeField] private AudioClip solvedClip;
     [SerializeField] public GameObject mouse;
@@ -49,11 +50,28 @@ public class Interactables : MonoBehaviour
             placedLocations.Add(collision.gameObject);
             if (collision.gameObject == targetObject) // Checking to see if the object is our target object
             {
+                if(targetObject.GetComponent<Interactables>() != null)
+                {
+                    //if(targetObject.GetComponent<Rigidbody>().isKinematic == true)
+                    //{
+                    //    targetObject.GetComponent<Rigidbody>().isKinematic = false;
+                    //}
+                    targetObject.GetComponent<Interactables>().isPreReqMet = true;
+                    targetObject.GetComponent<Rigidbody>().isKinematic= true;
+                }
                 isSolved = true;
                 src.clip = solvedClip;
                 src.Play();
                 MouseRaycast mouseRay = mouse.GetComponent<MouseRaycast>();
-                mouseRay.interactableSolvedCount++;
+                if(this.isRequired)
+                {
+                    mouseRay.interactableSolvedCount++;
+                }
+                else
+                {
+                    mouseRay.optionalInteractableSolvedCount++;
+
+                }
                 placedMesh.enabled = true;
                 if(mouseRay.interactableSolvedCount == mouseRay.interactableSolvedGoal)
                 {
