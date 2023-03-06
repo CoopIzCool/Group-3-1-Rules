@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using UnityEngine.SceneManagement;
 
 public class JSONHandler : MonoBehaviour
@@ -29,6 +31,14 @@ public class JSONHandler : MonoBehaviour
     {
         timerPath = Application.persistentDataPath + "/AlwaysHope_Timer" + fileKey + ".json";
         locPath = Application.persistentDataPath + "/AlwaysHope_Location" + fileKey + ".json"; // Set the designated filepaths
+
+        for(int i = 0; i < trackableObjects.Count; i++)
+        {
+            for(int j = 0; j < trackableLocations.Count; j++)
+            {
+
+            }
+        }
 
         ReadFromJSON();
         SceneManager.sceneUnloaded += SaveToJSON; // Set the event that runs on the scene unloading to save the JSON data
@@ -140,7 +150,7 @@ public class JSONHandler : MonoBehaviour
             timerString = File.ReadAllText(timerPath);
 
             // Map the string to the list
-            timerTracking = JsonUtility.FromJson<List<InteractableTimer>>(timerString);
+            JsonUtility.FromJsonOverwrite(timerString, timerTracking);
             readTime = true;
         }
         if(File.Exists(locPath))
@@ -149,7 +159,7 @@ public class JSONHandler : MonoBehaviour
             locString = File.ReadAllText(locPath);
 
             // Map the string to the list
-            locationTracking = JsonUtility.FromJson<List<InteractableLocation>>(locString);
+            JsonUtility.FromJsonOverwrite(locString, locationTracking);
             readLoc = true;
         }
 
