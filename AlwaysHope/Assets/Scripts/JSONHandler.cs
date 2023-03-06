@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using UnityEngine.SceneManagement;
 
 public class JSONHandler : MonoBehaviour
@@ -19,7 +20,6 @@ public class JSONHandler : MonoBehaviour
     [SerializeField] private List<Interactables> trackableObjects;
     [SerializeField] private List<GameObject> trackableLocations;
 
-    private float activeTimer = 0.0f;
     private float dataTimer = 0.0f;
     [SerializeField] private float refreshRate = 5.0f;
     [SerializeField] private MouseRaycast raycastMgr;
@@ -32,13 +32,12 @@ public class JSONHandler : MonoBehaviour
         timerPath = Application.persistentDataPath + "/AlwaysHope_Timer" + fileKey + ".json";
         locPath = Application.persistentDataPath + "/AlwaysHope_Location" + fileKey + ".json"; // Set the designated filepaths
 
-        for(int i = 0; i < trackableObjects.Count; i++)
-        {
-            for(int j = 0; j < trackableLocations.Count; j++)
-            {
-
-            }
-        }
+        //for(int i = 0; i < trackableObjects.Count; i++)
+        //{
+        //    timerTracking.Add(new InteractableTimer(trackableObjects[i]));
+        //    locationTracking.Add(new InteractableLocation(trackableObjects[i], trackableLocations));
+            
+        //}
 
         ReadFromJSON();
         SceneManager.sceneUnloaded += SaveToJSON; // Set the event that runs on the scene unloading to save the JSON data
@@ -81,6 +80,7 @@ public class JSONHandler : MonoBehaviour
             // Add the time of each interactable to the tracker
             for (int i = 0; i < timerTracking.Count; i++)
             {
+                timerTracking.Add(new InteractableTimer(trackableObjects[i]));
                 timerTracking[i].times.Add(trackableObjects[i].Timer);
             }
         }
@@ -89,6 +89,7 @@ public class JSONHandler : MonoBehaviour
             // Add the locations that each object was placed
             for (int i = 0; i < trackableObjects.Count; i++)
             {
+                locationTracking.Add(new InteractableLocation(trackableObjects[i], trackableLocations));
                 int objIndex = -1;
                 // 2D loop in order to find the index of the object that data is correlated to
                 for (int j = 0; j < locationTracking.Count; j++)
@@ -150,7 +151,7 @@ public class JSONHandler : MonoBehaviour
             timerString = File.ReadAllText(timerPath);
 
             // Map the string to the list
-            JsonUtility.FromJsonOverwrite(timerString, timerTracking);
+            timerTracking = JsonConvert.DeserializeObject<List<InteractableTimer>>(timerString);
             readTime = true;
         }
         if(File.Exists(locPath))
@@ -159,7 +160,7 @@ public class JSONHandler : MonoBehaviour
             locString = File.ReadAllText(locPath);
 
             // Map the string to the list
-            JsonUtility.FromJsonOverwrite(locString, locationTracking);
+            locationTracking = JsonConvert.DeserializeObject<List<InteractableLocation>>(locString);
             readLoc = true;
         }
 
