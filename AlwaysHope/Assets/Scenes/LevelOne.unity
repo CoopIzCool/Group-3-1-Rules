@@ -279,11 +279,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f4c45d9628ed1245b63bebd4225056d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerTracking:
-  - name: 
-    times: []
-  locationTracking:
-  - name: 
+  timerTracking: []
+  locationTracking: []
   trackableObjects:
   - {fileID: 2129977989}
   - {fileID: 717910842}
@@ -296,6 +293,7 @@ MonoBehaviour:
   - {fileID: 406183858}
   - {fileID: 1185450311}
   - {fileID: 1078472366}
+  refreshRate: 5
   raycastMgr: {fileID: 1374126398}
   camMgr: {fileID: 856780549}
 --- !u!1 &65500942
@@ -492,6 +490,7 @@ MonoBehaviour:
   solvedClip: {fileID: 8300000, guid: 57d3958d8795f4a48916610ccd0b52ef, type: 3}
   mouse: {fileID: 1374126397}
   placedMesh: {fileID: 577234889}
+  intName: 
   trackTime: 0
 --- !u!23 &144315476
 MeshRenderer:
@@ -628,6 +627,7 @@ MonoBehaviour:
   solvedClip: {fileID: 8300000, guid: 57d3958d8795f4a48916610ccd0b52ef, type: 3}
   mouse: {fileID: 1374126397}
   placedMesh: {fileID: 1096972162}
+  intName: 
   trackTime: 0
 --- !u!65 &157820463
 BoxCollider:
@@ -2016,6 +2016,7 @@ MonoBehaviour:
   solvedClip: {fileID: 8300000, guid: 57d3958d8795f4a48916610ccd0b52ef, type: 3}
   mouse: {fileID: 1374126397}
   placedMesh: {fileID: 240188249}
+  intName: 
   trackTime: 0
 --- !u!33 &717910843
 MeshFilter:
@@ -3957,6 +3958,7 @@ MonoBehaviour:
   solvedClip: {fileID: 8300000, guid: 57d3958d8795f4a48916610ccd0b52ef, type: 3}
   mouse: {fileID: 1374126397}
   placedMesh: {fileID: 1349113006}
+  intName: 
   trackTime: 0
 --- !u!54 &2129977991
 Rigidbody:

@@ -18,6 +18,8 @@ public class Interactables : MonoBehaviour
     [SerializeField] public GameObject mouse;
     [SerializeField] private MeshRenderer placedMesh;
 
+    // JSON Fields
+    public string intName;
     private Vector3 startingLoc;
     public bool trackTime;
     private float timer; // tracks the active time between first movement and solving
@@ -32,6 +34,7 @@ public class Interactables : MonoBehaviour
     void Start()
     {
         startingLoc = transform.position;
+        intName = gameObject.name;
     }
 
     // Update is called once per frame
