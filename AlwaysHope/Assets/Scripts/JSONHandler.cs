@@ -32,21 +32,12 @@ public class JSONHandler : MonoBehaviour
         timerPath = Application.persistentDataPath + "/AlwaysHope_Timer" + fileKey + ".json";
         locPath = Application.persistentDataPath + "/AlwaysHope_Location" + fileKey + ".json"; // Set the designated filepaths
 
-        //for(int i = 0; i < trackableObjects.Count; i++)
-        //{
-        //    timerTracking.Add(new InteractableTimer(trackableObjects[i]));
-        //    locationTracking.Add(new InteractableLocation(trackableObjects[i], trackableLocations));
-            
-        //}
-
         ReadFromJSON();
         SceneManager.sceneUnloaded += SaveToJSON; // Set the event that runs on the scene unloading to save the JSON data
     }
 
     public void Start()
     {
-        //DebuggingData();
-        Debug.Log(timerPath);
         TrackValues();
     }
 
@@ -77,11 +68,9 @@ public class JSONHandler : MonoBehaviour
     {
         if(!readTime)
         {
-            // Add the time of each interactable to the tracker
-            for (int i = 0; i < timerTracking.Count; i++)
+            for(int i = 0; i < trackableObjects.Count; i++)
             {
                 timerTracking.Add(new InteractableTimer(trackableObjects[i]));
-                timerTracking[i].times.Add(trackableObjects[i].Timer);
             }
         }
         if(!readLoc)
@@ -136,6 +125,7 @@ public class JSONHandler : MonoBehaviour
 
     /// <summary>
     /// Pulls from the JSON file paths in order to utilize the information stored in them
+    /// https://stackoverflow.com/questions/13297563/read-and-parse-a-json-file-in-c-sharp
     /// </summary>
     public void ReadFromJSON()
     {
@@ -144,25 +134,54 @@ public class JSONHandler : MonoBehaviour
         bool readTime = false;
         bool readLoc = false;
         
+        try
+        {
+            using (StreamReader r = new StreamReader(timerPath))
+            {
+                // Read and save the contents
+                timerString = r.ReadToEnd();
+                var jsonTest = JsonConvert.DeserializeObject<List<InteractableTimer>>(timerString);
+                if (jsonTest != null)
+                {
+                    timerTracking.AddRange(jsonTest);
+                    readTime = true;
+                }
+            }
+            using (StreamReader r = new StreamReader(locPath))
+            {
+                // Read and save the contents
+                locString = r.ReadToEnd();
+                var jsonTest = JsonConvert.DeserializeObject<List<InteractableLocation>>(locString);
+                if (jsonTest != null)
+                {
+                    locationTracking.AddRange(jsonTest);
+                    readLoc = true;
+                }
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            Debug.Log(e.Message);
+        }
         // If the files exist, use their data
-        if (File.Exists(timerPath))
-        {
-            // Read and save the contents
-            timerString = File.ReadAllText(timerPath);
+        //if (File.Exists(timerPath))
+        //{
+        //    // Read and save the contents
+        //    timerString = File.ReadAllText(timerPath);
 
-            // Map the string to the list
-            timerTracking = JsonConvert.DeserializeObject<List<InteractableTimer>>(timerString);
-            readTime = true;
-        }
-        if(File.Exists(locPath))
-        {
-            // Read and save the contents
-            locString = File.ReadAllText(locPath);
+        //    // Map the string to the list
+        //    timerTracking = JsonConvert.DeserializeObject<List<InteractableTimer>>(timerString);
+        //    readTime = true;
+        //}
+        //if(File.Exists(locPath))
+        //{
+        //    // Read and save the contents
+        //    locString = File.ReadAllText(locPath);
 
-            // Map the string to the list
-            locationTracking = JsonConvert.DeserializeObject<List<InteractableLocation>>(locString);
-            readLoc = true;
-        }
+        //    // Map the string to the list
+        //    locationTracking = JsonConvert.DeserializeObject<List<InteractableLocation>>(locString);
+        //    readLoc = true;
+        //}
 
         InitiateLists(readTime, readLoc);
     }
@@ -185,24 +204,12 @@ public class JSONHandler : MonoBehaviour
     /// <returns>The string of JSON data made from the list</returns>
     private string WriteJSONString(List<InteractableLocation> list)
     {
-        string data = "{\n";
-        for (int i = 0; i < list.Count; i++)
-        {
-            data += "\"" + list[i].name + "\":" + JsonUtility.ToJson(list[i]) + (i != list.Count - 1 ? ", ": "") + "\n";
-        }
-        data += "}";
-        return data;
+        return JsonConvert.SerializeObject(list);
     }
 
     private string WriteJSONString(List<InteractableTimer> list)
     {
-        string data = "{\n";
-        for (int i = 0; i < list.Count; i++)
-        {
-            data += "\"" + list[i].name + "\":" + JsonUtility.ToJson(list[i]) + (i != list.Count - 1 ? ", " : "") + "\n";
-        }
-        data += "}";
-        return data;
+        return JsonConvert.SerializeObject(list);
     }
 
     public void DebuggingData()
@@ -266,8 +273,19 @@ public class InteractableTimer : JSONData
 
     public InteractableTimer(Interactables obj)
     {
-        this.name = obj.intName;
+        name = obj.intName;
         times = new List<float>();
+    }
+
+    public InteractableTimer(string name, List<float> times)
+    {
+        this.name = name;
+        this.times = times;
+    }
+
+    public InteractableTimer()
+    {
+        name = "placeholder";
     }
 }
 
@@ -278,10 +296,21 @@ public class InteractableLocation : JSONData
 
     public InteractableLocation(Interactables obj, List<GameObject> locations)
     {
-        this.name = obj.intName;
+        name = obj.intName;
         for(int i = 0; i < locations.Count; i++)
         {
             placement.Add(Random.Range(0,1));
         }
     }
+    public InteractableLocation(string name, List<int> placement)
+    {
+        this.name = name;
+        this.placement = placement;
+    }
+
+    public InteractableLocation()
+    {
+        name = "placeholder";
+    }
+
 }
