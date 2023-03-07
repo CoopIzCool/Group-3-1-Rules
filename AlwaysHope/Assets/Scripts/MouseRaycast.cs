@@ -126,6 +126,7 @@ public class MouseRaycast : MonoBehaviour
             fovScaleY = 515f;
         }
         fovChanger.rectTransform.sizeDelta = new Vector2(fovScaleX, fovScaleY);
+        fovChanger.color = new Color(fovChanger.color.r, fovChanger.color.g, fovChanger.color.b, 200f / (interactableSolvedGoal - interactableSolvedCount));
 
         
         //if (interactableSolvedCount > 0)

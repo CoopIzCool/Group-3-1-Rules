@@ -18,6 +18,18 @@ public class FOVChanger : Image
         
     }
 
+    public override Color color {
+
+        get {
+            return base.color;
+        }
+
+        set
+        {
+            base.color = value;
+        }
+    }
+
     public override Material materialForRendering // Learned to do this form https://www.youtube.com/watch?v=XJJl19N2KFM
     {
         get
