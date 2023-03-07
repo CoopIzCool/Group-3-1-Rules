@@ -11,6 +11,7 @@ public class PauseManager : MonoBehaviour
     public void ReturnToMenu()
     {
         Time.timeScale = 1.0f;
+        GameObject.Find("GameManager").GetComponent<JSONHandler>().SaveToJSON();
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -19,6 +20,7 @@ public class PauseManager : MonoBehaviour
     /// </summary>
     public void ExitGame()
     {
+        GameObject.Find("GameManager").GetComponent<JSONHandler>().SaveToJSON();
         Application.Quit();
     }
 }

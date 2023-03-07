@@ -11,6 +11,8 @@ public class UIController : MonoBehaviour
     [SerializeField] private List<CanvasGroup> canvasGroups;
     [SerializeField] private float fadeRate = 1.0f;
 
+    [SerializeField] private List<Interactables> objects;
+
     private bool fadeIn = false;
     private bool fadeOut = false;
     [SerializeField] private Vector2 mousePos;
@@ -22,6 +24,12 @@ public class UIController : MonoBehaviour
         {
             canvasGroups[i].alpha = 0;
         }
+        objects = new List<Interactables>();
+        GameObject[] tempList = GameObject.FindGameObjectsWithTag("Interactable");
+        foreach(GameObject obj in tempList)
+        {
+            objects.Add(obj.GetComponent<Interactables>());
+        }
     }
 
     public void Update()
@@ -29,6 +37,13 @@ public class UIController : MonoBehaviour
         if (Input.GetKeyDown(pauseKey))
         {
             paused = !paused;
+            for(int i = 0; i < objects.Count; i++)
+            {
+                if(objects[i] != null)
+                {
+                    objects[i].paused = paused;
+                }
+            }
             Time.timeScale = paused ? 0f : 1f; // If paused is true, stop time scale, if it is false, set the timescale to normal values
             pauseMenu.SetActive(paused);
         }
@@ -37,10 +52,10 @@ public class UIController : MonoBehaviour
             switch(currentStep)
             {
                 case 0:
-                    if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S)) fadeOut = true;
+                    if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S)) fadeOut = true;
                     break;
                 case 1:
-                    if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D)) fadeOut = true;
+                    if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) fadeOut = true;
                     break;
                 case 2:
                     if (GetScrollWheelInput()) fadeOut = true;
@@ -56,11 +71,12 @@ public class UIController : MonoBehaviour
             }
             if (fadeOut)
             {
-                canvasGroups[currentStep].alpha -= fadeRate / 1000f;
+                canvasGroups[currentStep].alpha -= fadeRate * Time.deltaTime;
+                fadeIn = false;
             }
             if (fadeIn)
             {
-                canvasGroups[currentStep].alpha += fadeRate / 1000f;
+                canvasGroups[currentStep].alpha += fadeRate * Time.deltaTime;
             }
             if (currentStep+1 < canvasGroups.Count && canvasGroups[currentStep].alpha <= 0)
             {

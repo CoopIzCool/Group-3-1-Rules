@@ -145,7 +145,7 @@ public class MouseRaycast : MonoBehaviour
         fovChanger.rectTransform.sizeDelta = new Vector2(fovScaleX, fovScaleY);
         fovChanger.color = new Color(fovChanger.color.r, fovChanger.color.g, fovChanger.color.b, 200f / (interactableSolvedGoal - interactableSolvedCount));
 
-        
+
         //if (interactableSolvedCount > 0)
         //{
         //
@@ -156,6 +156,7 @@ public class MouseRaycast : MonoBehaviour
         //    Debug.Log("FOVTEST");
         //    fovChanger.rectTransform.sizeDelta = new Vector2(330f, 154.5f);
         //}
+    }
     public void SetActive()
     {
         mouseActive = true;

@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using UnityEngine.SceneManagement;
 
 public class JSONHandler : MonoBehaviour
 {
+    #region Fields
     [SerializeField] private List<InteractableTimer> timerTracking = new List<InteractableTimer>();
     [SerializeField] private List<InteractableLocation> locationTracking = new List<InteractableLocation>();
 
     private string fileKey = "P1"; // Changes on each release, designates patches in which data correlates to
     private string timerPath; // File path to find the tracked time of each object
     private string locPath; // File path to find the tracked locations that objects were placed
+    private string keyPath; // File that records the names of the locations tracked, in order
 
     [SerializeField] private List<Interactables> trackableObjects;
-    [SerializeField] private List<GameObject> trackableLocations;
+    [SerializeField] private List<string> trackableLocations;
 
     private float dataTimer = 0.0f;
     [SerializeField] private float refreshRate = 5.0f;
@@ -26,18 +26,31 @@ public class JSONHandler : MonoBehaviour
     [SerializeField] private CameraFixedRotation camMgr;
 
     int sessionIndex = -1;
+    #endregion
 
     public void Awake()
     {
-        timerPath = Application.persistentDataPath + "/AlwaysHope_Timer" + fileKey + ".json";
-        locPath = Application.persistentDataPath + "/AlwaysHope_Location" + fileKey + ".json"; // Set the designated filepaths
-
-        ReadFromJSON();
-        SceneManager.sceneUnloaded += SaveToJSON; // Set the event that runs on the scene unloading to save the JSON data
+        timerPath = Application.dataPath + "/AlwaysHope_Timer" + fileKey + ".json";
+        locPath = Application.dataPath + "/AlwaysHope_Location" + fileKey + ".json"; // Set the designated filepaths 
+        keyPath = Application.dataPath + "/AlwaysHope_LocationKeys" + fileKey + ".json";
     }
 
     public void Start()
     {
+        trackableObjects = new List<Interactables>();
+        trackableLocations = new List<string>();
+        GameObject[] tempArr = GameObject.FindGameObjectsWithTag("Interactable");
+        for (int i = 0; i < tempArr.Length; i++)
+        {
+            trackableObjects.Add(tempArr[i].GetComponent<Interactables>());
+            trackableLocations.Add(tempArr[i].name);
+        }
+        tempArr = (GameObject.FindGameObjectsWithTag("Location"));
+        for (int i = 0; i < tempArr.Length; i++)
+        {
+            trackableLocations.Add(tempArr[i].name);
+        }
+        ReadFromJSON();
         TrackValues();
     }
 
@@ -48,9 +61,12 @@ public class JSONHandler : MonoBehaviour
         {
             foreach(Interactables interactable in trackableObjects)
             {
-                if(interactable.trackTime)
+                if (interactable != null)
                 {
-                    interactable.Timer += Time.deltaTime;
+                    if (interactable.trackTime)
+                    {
+                        interactable.Timer += Time.deltaTime;
+                    }
                 }
             }
         }
@@ -79,45 +95,6 @@ public class JSONHandler : MonoBehaviour
             for (int i = 0; i < trackableObjects.Count; i++)
             {
                 locationTracking.Add(new InteractableLocation(trackableObjects[i], trackableLocations));
-                int objIndex = -1;
-                // 2D loop in order to find the index of the object that data is correlated to
-                for (int j = 0; j < locationTracking.Count; j++)
-                {
-                    // If the name of the trackable object is the name of the locationTracking object, return that index and leave the loop
-                    if (trackableObjects[i].intName.Equals(locationTracking[j].name))
-                    {
-                        objIndex = j;
-                        break;
-                    }
-                }
-                // Placeholder var to remove extra code
-                List<GameObject> placedLoc = trackableObjects[i].placedLocations;
-                if(objIndex != -1)
-                {
-                    if (placedLoc.Count != locationTracking[objIndex].placement.Count)
-                    {
-                        for (int k = 0; k < placedLoc.Count; k++)
-                        {
-                            if (!locationTracking[objIndex].placement[k].Equals(null))
-                            {
-                                locationTracking[objIndex].placement[k] += Random.Range(0, 1);
-                            }
-                            else
-                            {
-                                locationTracking[objIndex].placement.Add(0);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        for (int k = 0; k < placedLoc.Count; k++)
-                        {
-                            locationTracking[objIndex].placement[k] += Random.Range(0, 1);
-                        }
-                    }
-                
-                }
-
             }
         }
         
@@ -186,50 +163,16 @@ public class JSONHandler : MonoBehaviour
         InitiateLists(readTime, readLoc);
     }
 
-    public void SaveToJSON(Scene current)
+    public void SaveToJSON()
     {
         // Update the values for the last time
         TrackValues();
+        FinalizePositions();
 
         // Write the files
-        File.WriteAllText(timerPath, WriteJSONString(timerTracking));
-        File.WriteAllText(locPath, WriteJSONString(locationTracking));
-    }
-
-    /// <summary>
-    /// Writes a string utilized to save information to JSON
-    /// </summary>
-    /// <typeparam name="T">The variable type of the list</typeparam>
-    /// <param name="list">The list of data being saved to JSON</param>
-    /// <returns>The string of JSON data made from the list</returns>
-    private string WriteJSONString(List<InteractableLocation> list)
-    {
-        return JsonConvert.SerializeObject(list);
-    }
-
-    private string WriteJSONString(List<InteractableTimer> list)
-    {
-        return JsonConvert.SerializeObject(list);
-    }
-
-    public void DebuggingData()
-    {
-        for(int i = 0; i < trackableObjects.Count; i++)
-        {
-            timerTracking.Add(new InteractableTimer(trackableObjects[i]));
-            //Debug.Log(timerTracking[i].name);
-            for(int j = 0; j < 25; j++) //Add filler data
-            {
-                timerTracking[i].times.Add(Random.Range(0.0f, 30.0f));
-            }
-            InteractableLocation loc = new InteractableLocation(trackableObjects[i], trackableLocations);
-            //Debug.Log(locationTracking);
-            locationTracking.Add(loc);
-            for(int k = 0; k < locationTracking[i].placement.Count; k++)
-            {
-                locationTracking[i].placement[k] = Random.Range(0, 4);
-            }
-        }
+        File.WriteAllText(timerPath, JsonConvert.SerializeObject(timerTracking));
+        File.WriteAllText(locPath, JsonConvert.SerializeObject(locationTracking));
+        File.WriteAllText(keyPath, JsonConvert.SerializeObject(trackableLocations));
     }
 
     public void TrackValues()
@@ -238,41 +181,77 @@ public class JSONHandler : MonoBehaviour
         {
             sessionIndex = timerTracking[0].times.Count;
         }
-        for(int i = 0; i < trackableObjects.Count; i++)
+        for(int i = 0; i < timerTracking.Count; i++)
         {
             if (sessionIndex == timerTracking[i].times.Count)
             {
-                if (trackableObjects[i].isSolved)
+                if(trackableObjects[i] != null)
                 {
-                    timerTracking[i].times.Add(trackableObjects[i].Timer);
-                }
-                else
-                {
-                    timerTracking[i].times.Add(-1);
+                    if (trackableObjects[i].isSolved)
+                    {
+                        timerTracking[i].times.Add(trackableObjects[i].Timer);
+                    }
+                    else
+                    {
+                        timerTracking[i].times.Add(-1);
+                    }
                 }
             }
             else
             {
-                if (trackableObjects[i].isSolved)
+                if (trackableObjects[i] != null)
                 {
-                    timerTracking[i].times[sessionIndex] = trackableObjects[i].Timer;
-                }
-                else
-                {
-                    timerTracking[i].times[sessionIndex] = -1;
-                }
+                    if (trackableObjects[i].isSolved)
+                    {
+                        timerTracking[i].times[sessionIndex] = trackableObjects[i].Timer;
+                    }
+                    else
+                    {
+                        timerTracking[i].times[sessionIndex] = -1;
+                    }
+                }   
             }
 
-            for(int k = 0; k < locationTracking[i].placement.Count; k++)
-            {
-                // locationTracking[i].placement[keys[k]] = trackableObjects[i].placedLocations[keys[j]];
-                // Will be updated whenever interactables refactors the list into a Dictionary
-                locationTracking[i].placement[k] += Random.Range(0, 2); // Placeholder
-            }
-            timerTracking[i].name = trackableObjects[i].intName;
-            locationTracking[i].name = trackableObjects[i].intName;
+            timerTracking[i].name = (trackableObjects[i] != null ? trackableObjects[i].intName : "bug_value");
+            locationTracking[i].name = (trackableObjects[i] != null ? trackableObjects[i].intName : "bug_value");
         }
     }
+    private void FinalizePositions()
+    {
+        for(int i = 0; i < locationTracking.Count; i++)
+        {
+            if(trackableObjects[i] != null)
+            {
+                foreach (KeyValuePair<string, int> kvp in trackableObjects[i].placedInteractablesDict)
+                {
+                    string str = kvp.Key;
+                    int index = trackableLocations.IndexOf(str);
+                    locationTracking[i].placement[index] += kvp.Value;
+                }
+            }
+        }
+        
+    }
+
+    //public void DebuggingData()
+    //{
+    //    for(int i = 0; i < trackableObjects.Count; i++)
+    //    {
+    //        timerTracking.Add(new InteractableTimer(trackableObjects[i]));
+    //        //Debug.Log(timerTracking[i].name);
+    //        for(int j = 0; j < 25; j++) //Add filler data
+    //        {
+    //            timerTracking[i].times.Add(Random.Range(0.0f, 30.0f));
+    //        }
+    //        InteractableLocation loc = new InteractableLocation(trackableObjects[i], trackableLocations);
+    //        //Debug.Log(locationTracking);
+    //        locationTracking.Add(loc);
+    //        for(int k = 0; k < locationTracking[i].placement.Count; k++)
+    //        {
+    //            locationTracking[i].placement[k] = Random.Range(0, 4);
+    //        }
+    //    }
+    //}
 }
 
 public class JSONData
@@ -287,7 +266,7 @@ public class InteractableTimer : JSONData
 
     public InteractableTimer(Interactables obj)
     {
-        name = obj.intName;
+        name = (obj != null ? obj.intName : "bug_value") ;
         times = new List<float>();
     }
 
@@ -308,12 +287,12 @@ public class InteractableLocation : JSONData
 {
     public List<int> placement = new List<int>();
 
-    public InteractableLocation(Interactables obj, List<GameObject> locations)
+    public InteractableLocation(Interactables obj, List<string> locations)
     {
-        name = obj.intName;
-        for(int i = 0; i < locations.Count; i++)
+        name = (obj != null ? obj.intName : "bug_value");
+        for (int i = 0; i < locations.Count; i++)
         {
-            placement.Add(Random.Range(0,1));
+            placement.Add(0);
         }
     }
     public InteractableLocation(string name, List<int> placement)
