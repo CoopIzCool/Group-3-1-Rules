@@ -18,12 +18,21 @@ public class CameraFixedRotation : MonoBehaviour
     [SerializeField]
     private Transform centerPoint;
 
+    [SerializeField] private float inactiveTime;
+    private float activeTimer;
+    private bool camActive = true;
+
     #endregion Fields
 
     #region Properties
     public bool ItemIsHeld
     {
         set { itemHeld = value; }
+    }
+
+    public bool CamActive
+    {
+        get { return camActive; }
     }
     #endregion Properties
     // Start is called before the first frame update
@@ -39,14 +48,17 @@ public class CameraFixedRotation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        bool isActive = false;
         //increments counter;
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             counter += 20.0f * Time.deltaTime;
+            SetActive();
         }
         else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             counter -= 20.0f * Time.deltaTime;
+            SetActive();
         }
 
         //If the player is not holding an item
@@ -57,11 +69,13 @@ public class CameraFixedRotation : MonoBehaviour
             {
                 GetComponent<Camera>().fieldOfView -= 280.0f * Time.deltaTime;
                 //xRotateSensitivity -= 8.00f * Time.deltaTime;
+                SetActive();
             }
             else if (Input.mouseScrollDelta.y < 0.0f && GetComponent<Camera>().fieldOfView < 90.0f)
             {
                 GetComponent<Camera>().fieldOfView += 280.0f * Time.deltaTime;
                 //xRotateSensitivity += 8.00f * Time.deltaTime;
+                SetActive();
             }
 
         }
@@ -69,10 +83,12 @@ public class CameraFixedRotation : MonoBehaviour
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
         {
             xRotate -= 0.5f * Time.deltaTime;
+            SetActive();
         }
         else if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
         {
             xRotate += 0.5f * Time.deltaTime;
+            SetActive();
         }
 
         //reset counter for easy calculations
@@ -92,5 +108,20 @@ public class CameraFixedRotation : MonoBehaviour
         //set position and rotation
         transform.position = new Vector3(x, y, z);
         transform.LookAt(centerPoint);
+        if(!isActive && activeTimer < inactiveTime)
+        {
+            activeTimer += Time.deltaTime;
+
+            if(activeTimer >= inactiveTime)
+            {
+                camActive = false;
+            }
+        }
+    }
+
+    public void SetActive()
+    {
+        camActive = true;
+        activeTimer = 0f;
     }
 }

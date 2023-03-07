@@ -21,12 +21,23 @@ public class Interactables : MonoBehaviour
     [SerializeField] public GameObject mouse;
     [SerializeField] private MeshRenderer placedMesh;
 
+    // JSON Fields
+    public string intName;
+    private Vector3 startingLoc;
+    public bool trackTime;
+    private float timer; // tracks the active time between first movement and solving
     #endregion Fields
+    public float Timer
+    {
+        get { return timer; }
+        set { timer = value; }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        startingLoc = transform.position;
+        intName = gameObject.name;
     }
 
     // Update is called once per frame
@@ -36,6 +47,8 @@ public class Interactables : MonoBehaviour
         {
             this.gameObject.SetActive(false);
         }
+
+        trackTime = (!startingLoc.Equals(transform.position) && !isSolved ? true : false); // if the object has been moved and hasnt been solved, track active time
     }
 
     private void OnCollisionStay(Collision collision)
