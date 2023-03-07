@@ -241,17 +241,31 @@ public class JSONHandler : MonoBehaviour
         for(int i = 0; i < trackableObjects.Count; i++)
         {
             if (sessionIndex == timerTracking[i].times.Count)
-            {   
-                timerTracking[i].times.Add(trackableObjects[i].Timer);
+            {
+                if (trackableObjects[i].isSolved)
+                {
+                    timerTracking[i].times.Add(trackableObjects[i].Timer);
+                }
+                else
+                {
+                    timerTracking[i].times.Add(-1);
+                }
             }
             else
             {
-                timerTracking[i].times[sessionIndex] = trackableObjects[i].Timer;
+                if (trackableObjects[i].isSolved)
+                {
+                    timerTracking[i].times[sessionIndex] = trackableObjects[i].Timer;
+                }
+                else
+                {
+                    timerTracking[i].times[sessionIndex] = -1;
+                }
             }
 
             for(int k = 0; k < locationTracking[i].placement.Count; k++)
             {
-                //locationTracking[i].placement[keys[k]] = trackableObjects[i].placedLocations[keys[j]];
+                // locationTracking[i].placement[keys[k]] = trackableObjects[i].placedLocations[keys[j]];
                 // Will be updated whenever interactables refactors the list into a Dictionary
                 locationTracking[i].placement[k] += Random.Range(0, 2); // Placeholder
             }
