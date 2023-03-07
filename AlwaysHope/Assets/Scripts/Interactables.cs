@@ -9,14 +9,17 @@ public class Interactables : MonoBehaviour
     public GameObject targetObject;
     public List<GameObject> placedLocations;
     public List<float> timedLocations;
+    [SerializeField] public Dictionary<GameObject, int> placedInteractablesDict = new Dictionary<GameObject, int>();
     //public GameObject[] placedLocations;
     public bool isSolved;
     public bool isPositive; // For positive vs harmful items
-
+    [SerializeField] public bool isPreReqMet = true;
+    [SerializeField] private bool isRequired;
     [SerializeField] private AudioSource src;
     [SerializeField] private AudioClip solvedClip;
     [SerializeField] public GameObject mouse;
     [SerializeField] private MeshRenderer placedMesh;
+
     #endregion Fields
 
     // Start is called before the first frame update
@@ -31,37 +34,86 @@ public class Interactables : MonoBehaviour
         if (isSolved)
         {
             this.gameObject.SetActive(false);
-            if (isPositive)
-            {
-                // Make FOV more clear
-            }
-            else
-            {
-                // Make FOV less clear
-            }
         }
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        if (!placedLocations.Contains(collision.gameObject)) // If the object it is currently colliding with is not in the list already, then add it to the list.
-        { 
-            placedLocations.Add(collision.gameObject);
+        if (!placedInteractablesDict.ContainsKey(collision.gameObject)) // If the object it is currently colliding with is not in the list already, then add it to the list.
+        {
+            placedInteractablesDict.Add(collision.gameObject, 0);
             if (collision.gameObject == targetObject) // Checking to see if the object is our target object
             {
+                if (targetObject.GetComponent<Interactables>() != null)
+                {
+                    //if(targetObject.GetComponent<Rigidbody>().isKinematic == true)
+                    //{
+                    //    targetObject.GetComponent<Rigidbody>().isKinematic = false;
+                    //}
+                    targetObject.GetComponent<Interactables>().isPreReqMet = true;
+                    targetObject.GetComponent<Rigidbody>().isKinematic = true;
+                }
                 isSolved = true;
                 src.clip = solvedClip;
                 src.Play();
                 MouseRaycast mouseRay = mouse.GetComponent<MouseRaycast>();
-                mouseRay.interactableSolvedCount++;
+                if (this.isRequired)
+                {
+                    mouseRay.interactableSolvedCount++;
+                }
+                else
+                {
+                    mouseRay.optionalInteractableSolvedCount++;
+
+                }
                 placedMesh.enabled = true;
-                if(mouseRay.interactableSolvedCount == mouseRay.interactableSolvedGoal)
+                if (mouseRay.interactableSolvedCount == mouseRay.interactableSolvedGoal)
                 {
                     Debug.Log("completed level");
                     StartCoroutine(PlayVictory(mouseRay.VictoryClip.length));
                 }
             }
         }
+        else
+        {
+            placedInteractablesDict[collision.gameObject] = placedInteractablesDict[collision.gameObject] + 1;
+            //placedInteractablesDict.Add(collision.gameObject, placedInteractablesDict[collision.gameObject] + 1);
+        }
+        //if (!placedLocations.Contains(collision.gameObject)) // If the object it is currently colliding with is not in the list already, then add it to the list.
+        //{ 
+        //    placedLocations.Add(collision.gameObject);
+        //    if (collision.gameObject == targetObject) // Checking to see if the object is our target object
+        //    {
+        //        if(targetObject.GetComponent<Interactables>() != null)
+        //        {
+        //            //if(targetObject.GetComponent<Rigidbody>().isKinematic == true)
+        //            //{
+        //            //    targetObject.GetComponent<Rigidbody>().isKinematic = false;
+        //            //}
+        //            targetObject.GetComponent<Interactables>().isPreReqMet = true;
+        //            targetObject.GetComponent<Rigidbody>().isKinematic= true;
+        //        }
+        //        isSolved = true;
+        //        src.clip = solvedClip;
+        //        src.Play();
+        //        MouseRaycast mouseRay = mouse.GetComponent<MouseRaycast>();
+        //        if(this.isRequired)
+        //        {
+        //            mouseRay.interactableSolvedCount++;
+        //        }
+        //        else
+        //        {
+        //            mouseRay.optionalInteractableSolvedCount++;
+
+        //        }
+        //        placedMesh.enabled = true;
+        //        if(mouseRay.interactableSolvedCount == mouseRay.interactableSolvedGoal)
+        //        {
+        //            Debug.Log("completed level");
+        //            StartCoroutine(PlayVictory(mouseRay.VictoryClip.length));
+        //        }
+        //    }
+        //}
 
     }
 

@@ -16,7 +16,7 @@ public class InvisibleWalls : MonoBehaviour
     void Update()
     {
         float distanceToCamera = Vector3.Distance(transform.position, camera.position);
-        Debug.Log(distanceToCamera);
+        //Debug.Log(distanceToCamera);
         if( distanceToCamera <= 11)
         {
             meshRenderer.enabled = false;

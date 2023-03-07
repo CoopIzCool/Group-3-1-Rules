@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MouseRaycast : MonoBehaviour
 {
@@ -18,10 +19,21 @@ public class MouseRaycast : MonoBehaviour
     CameraFixedRotation cameraRotationScript;
     [SerializeField] public int interactableSolvedCount = 0;
     [SerializeField] public int interactableSolvedGoal = 1;
+    [SerializeField] public int optionalInteractableSolvedCount = 0;
+    [SerializeField] public int optionalInteractableSolvedGoal = 1;
     [SerializeField] private GameObject endScreen;
     [SerializeField] private AudioClip victoryClip;
+    [SerializeField] private Image fovChanger;
+    [SerializeField] private GameObject[] requiredInteractables;
+    [SerializeField] private GameObject[] optionalInteractables;
     #endregion Fields
     public AudioClip VictoryClip { get { return victoryClip; } }
+
+    private void Start()
+    {
+        interactableSolvedGoal = requiredInteractables.Length;
+        optionalInteractableSolvedGoal = optionalInteractables.Length;
+    }
 
     // Update is called once per frame
     void Update()
@@ -60,6 +72,7 @@ public class MouseRaycast : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Mouse0))
                 RaycastTest();
         }
+        scaleFOV();
         if(interactableSolvedCount == interactableSolvedGoal)
         {
             endScreen.SetActive(true);
@@ -84,14 +97,47 @@ public class MouseRaycast : MonoBehaviour
             }
             if (hitObject.tag.Equals("Interactable"))
             {
-                //Debug.Log("It should work");
-                grabbedObject = hitObject;
-                //hitObject.GetComponent<MeshRenderer>().material = materialTest;
-                //bool to flip scroll wheel functionallity
-                cameraRotationScript.ItemIsHeld = true;
-                grabbedScreenPos = Camera.main.WorldToScreenPoint(grabbedObject.transform.position);
+                if (hitObject.GetComponent<Interactables>().isPreReqMet)
+                {
+                    //Debug.Log("It should work");
+                    grabbedObject = hitObject;
+                    //hitObject.GetComponent<MeshRenderer>().material = materialTest;
+                    //bool to flip scroll wheel functionallity
+                    cameraRotationScript.ItemIsHeld = true;
+                    grabbedScreenPos = Camera.main.WorldToScreenPoint(grabbedObject.transform.position);
+                }
+
             }
         }
 
+    }
+
+    private void scaleFOV()
+    {
+        float fovScaleX, fovScaleY;
+        if ((interactableSolvedGoal - interactableSolvedCount) > 0)
+        {
+            fovScaleX = 1100f / (interactableSolvedGoal - interactableSolvedCount);
+            fovScaleY = 515f / (interactableSolvedGoal - interactableSolvedCount);
+        }
+        else
+        {
+            fovScaleX = 1100f;
+            fovScaleY = 515f;
+        }
+        fovChanger.rectTransform.sizeDelta = new Vector2(fovScaleX, fovScaleY);
+        fovChanger.color = new Color(fovChanger.color.r, fovChanger.color.g, fovChanger.color.b, 200f / (interactableSolvedGoal - interactableSolvedCount));
+
+        
+        //if (interactableSolvedCount > 0)
+        //{
+        //
+        //    fovChanger.rectTransform.sizeDelta = new Vector2(fovScaleX, fovScaleY);
+        //}
+        //else
+        //{
+        //    Debug.Log("FOVTEST");
+        //    fovChanger.rectTransform.sizeDelta = new Vector2(330f, 154.5f);
+        //}
     }
 }
