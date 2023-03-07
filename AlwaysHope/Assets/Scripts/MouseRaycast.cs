@@ -13,8 +13,8 @@ public class MouseRaycast : MonoBehaviour
     public GameObject grabbedObject;
     public Vector3 grabbedScreenPos;
     private float zDepth = 0;
-    private float xBound = 4.5f;
-    private float zBound = 4.5f;
+    private float xBound = 10f;
+    private float zBound = 6f;
     [SerializeField]
     CameraFixedRotation cameraRotationScript;
     [SerializeField] public int interactableSolvedCount = 0;
@@ -117,8 +117,8 @@ public class MouseRaycast : MonoBehaviour
         float fovScaleX, fovScaleY;
         if ((interactableSolvedGoal - interactableSolvedCount) > 0)
         {
-            fovScaleX = 1100f / (interactableSolvedGoal - interactableSolvedCount);
-            fovScaleY = 515f / (interactableSolvedGoal - interactableSolvedCount);
+            fovScaleX = 330f + (1100f / (interactableSolvedGoal - interactableSolvedCount));
+            fovScaleY = 154.5f + (515f / (interactableSolvedGoal - interactableSolvedCount));
         }
         else
         {

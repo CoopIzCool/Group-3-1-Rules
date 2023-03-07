@@ -9,10 +9,11 @@ public class Interactables : MonoBehaviour
     public GameObject targetObject;
     public List<GameObject> placedLocations;
     public List<float> timedLocations;
-    [SerializeField] public Dictionary<GameObject, int> placedInteractablesDict = new Dictionary<GameObject, int>();
+    [SerializeField] public Dictionary<string, int> placedInteractablesDict = new Dictionary<string, int>();
     //public GameObject[] placedLocations;
     public bool isSolved;
     public bool isPositive; // For positive vs harmful items
+    [SerializeField] public GameObject secondaryTarget;
     [SerializeField] public bool isPreReqMet = true;
     [SerializeField] private bool isRequired;
     [SerializeField] private AudioSource src;
@@ -39,9 +40,10 @@ public class Interactables : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        if (!placedInteractablesDict.ContainsKey(collision.gameObject)) // If the object it is currently colliding with is not in the list already, then add it to the list.
+        if (!placedInteractablesDict.ContainsKey(collision.gameObject.name)) // If the object it is currently colliding with is not in the list already, then add it to the list.
         {
-            placedInteractablesDict.Add(collision.gameObject, 0);
+            Debug.Log(collision.gameObject.name);
+            placedInteractablesDict.Add(collision.gameObject.name, 1);
             if (collision.gameObject == targetObject) // Checking to see if the object is our target object
             {
                 if (targetObject.GetComponent<Interactables>() != null)
@@ -50,9 +52,19 @@ public class Interactables : MonoBehaviour
                     //{
                     //    targetObject.GetComponent<Rigidbody>().isKinematic = false;
                     //}
-                    targetObject.GetComponent<Interactables>().isPreReqMet = true;
-                    targetObject.GetComponent<Rigidbody>().isKinematic = true;
+                    if (secondaryTarget != null)
+                    {
+                        secondaryTarget.GetComponent<Interactables>().isPreReqMet = true;
+                        //secondaryTarget.GetComponent<Rigidbody>().isKinematic = true;
+                    }
+                    else
+                    {
+                        targetObject.GetComponent<Interactables>().isPreReqMet = true;
+                        targetObject.GetComponent<Rigidbody>().isKinematic = true;
+                    }
+
                 }
+
                 isSolved = true;
                 src.clip = solvedClip;
                 src.Play();
@@ -66,7 +78,10 @@ public class Interactables : MonoBehaviour
                     mouseRay.optionalInteractableSolvedCount++;
 
                 }
-                placedMesh.enabled = true;
+                if(placedMesh != null)
+                {
+                    placedMesh.enabled = true;
+                }
                 if (mouseRay.interactableSolvedCount == mouseRay.interactableSolvedGoal)
                 {
                     Debug.Log("completed level");
@@ -76,7 +91,7 @@ public class Interactables : MonoBehaviour
         }
         else
         {
-            placedInteractablesDict[collision.gameObject] = placedInteractablesDict[collision.gameObject] + 1;
+            placedInteractablesDict[collision.gameObject.name] = placedInteractablesDict[collision.gameObject.name] + 1;
             //placedInteractablesDict.Add(collision.gameObject, placedInteractablesDict[collision.gameObject] + 1);
         }
         //if (!placedLocations.Contains(collision.gameObject)) // If the object it is currently colliding with is not in the list already, then add it to the list.
