@@ -16,6 +16,7 @@ public class MouseRaycast : MonoBehaviour
     private float xBoundMin = -10.3f;
     private float xBoundMax = 5.9f;
     private float zBound = 6.3f;
+    public GameObject fovChangerCanvas;
     [SerializeField]
     CameraFixedRotation cameraRotationScript;
     [SerializeField] public int interactableSolvedCount = 0;
@@ -88,6 +89,7 @@ public class MouseRaycast : MonoBehaviour
         scaleFOV();
         if(interactableSolvedCount == interactableSolvedGoal)
         {
+            fovChangerCanvas.SetActive(false);
             endScreen.SetActive(true);
             //Time.timeScale = 0f;
         }
@@ -134,14 +136,16 @@ public class MouseRaycast : MonoBehaviour
         float fovScaleX, fovScaleY;
         if ((interactableSolvedGoal - interactableSolvedCount) > 0)
         {
-            fovScaleX = 330f + (1100f / (interactableSolvedGoal - interactableSolvedCount));
-            fovScaleY = 154.5f + (515f / (interactableSolvedGoal - interactableSolvedCount));
+            fovScaleX = (fovChangerCanvas.GetComponent<RectTransform>().rect.width/2) + (fovChanger.rectTransform.sizeDelta.x /  (interactableSolvedGoal - interactableSolvedCount));
+            fovScaleY = (fovChangerCanvas.GetComponent<RectTransform>().rect.height/2) + (fovChanger.rectTransform.sizeDelta.y / (interactableSolvedGoal - interactableSolvedCount));
         }
         else
         {
-            fovScaleX = 1100f;
-            fovScaleY = 515f;
+            fovScaleX = fovChangerCanvas.GetComponent<RectTransform>().rect.width;
+            fovScaleY = fovChangerCanvas.GetComponent<RectTransform>().rect.height;
         }
+        Debug.Log(fovScaleX);
+        Debug.Log(fovScaleY);
         fovChanger.rectTransform.sizeDelta = new Vector2(fovScaleX, fovScaleY);
         fovChanger.color = new Color(fovChanger.color.r, fovChanger.color.g, fovChanger.color.b, 200f / (interactableSolvedGoal - interactableSolvedCount));
 
