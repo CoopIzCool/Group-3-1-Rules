@@ -29,7 +29,7 @@ public class CameraFixedRotation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        radius = 12.0f;
+        //radius = 12.0f;
         //yPos = transform.position.y;
         counter = 180;
         xRotate = Mathf.PI / 4;

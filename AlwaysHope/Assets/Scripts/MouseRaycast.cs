@@ -13,8 +13,9 @@ public class MouseRaycast : MonoBehaviour
     public GameObject grabbedObject;
     public Vector3 grabbedScreenPos;
     private float zDepth = 0;
-    private float xBound = 10f;
-    private float zBound = 6f;
+    private float xBoundMin = -10.3f;
+    private float xBoundMax = 5.9f;
+    private float zBound = 6.3f;
     [SerializeField]
     CameraFixedRotation cameraRotationScript;
     [SerializeField] public int interactableSolvedCount = 0;
@@ -44,8 +45,9 @@ public class MouseRaycast : MonoBehaviour
             grabbedObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, grabbedScreenPos.z + zDepth));
 
             //Clamp the position to prevent the object from falling out of bounds
-            float clampedX = Mathf.Clamp(grabbedObject.transform.position.x, xBound * -1, xBound);
-            float clampedY = Mathf.Clamp(grabbedObject.transform.position.y, .5f, 5);
+            float clampedX = Mathf.Clamp(grabbedObject.transform.position.x, xBoundMin, xBoundMax);
+            Debug.Log(clampedX);
+            float clampedY = Mathf.Clamp(grabbedObject.transform.position.y, 0.03f, 5);
             float clampedZ = Mathf.Clamp(grabbedObject.transform.position.z, zBound * -1, zBound);
             grabbedObject.transform.position = new Vector3(clampedX, clampedY, clampedZ);
 
