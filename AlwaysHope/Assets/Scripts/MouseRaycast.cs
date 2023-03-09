@@ -147,8 +147,8 @@ public class MouseRaycast : MonoBehaviour
             fovScaleX = fovChangerCanvas.GetComponent<RectTransform>().rect.width;
             fovScaleY = fovChangerCanvas.GetComponent<RectTransform>().rect.height;
         }
-        Debug.Log(fovScaleX);
-        Debug.Log(fovScaleY);
+        //Debug.Log(fovScaleX);
+        //Debug.Log(fovScaleY);
         fovChanger.rectTransform.sizeDelta = new Vector2(fovScaleX, fovScaleY);
         fovChanger.color = new Color(fovChanger.color.r, fovChanger.color.g, fovChanger.color.b, 200f / (interactableSolvedGoal - interactableSolvedCount));
 
