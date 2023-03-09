@@ -52,12 +52,12 @@ public class CameraFixedRotation : MonoBehaviour
         //increments counter;
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
-            counter += 30.0f * Time.deltaTime;
+            counter += 36.0f * Time.deltaTime;
             SetActive();
         }
         else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
-            counter -= 30.0f * Time.deltaTime;
+            counter -= 36.0f * Time.deltaTime;
             SetActive();
         }
 
@@ -67,13 +67,13 @@ public class CameraFixedRotation : MonoBehaviour
             //camera Zoom
             if (Input.mouseScrollDelta.y > 0.0f && GetComponent<Camera>().fieldOfView > 20.0f)
             {
-                GetComponent<Camera>().fieldOfView -= 280.0f * Time.deltaTime;
+                GetComponent<Camera>().fieldOfView -= 720.0f * Time.deltaTime;
                 //xRotateSensitivity -= 8.00f * Time.deltaTime;
                 SetActive();
             }
             else if (Input.mouseScrollDelta.y < 0.0f && GetComponent<Camera>().fieldOfView < 90.0f)
             {
-                GetComponent<Camera>().fieldOfView += 280.0f * Time.deltaTime;
+                GetComponent<Camera>().fieldOfView += 720.0f * Time.deltaTime;
                 //xRotateSensitivity += 8.00f * Time.deltaTime;
                 SetActive();
             }
@@ -82,12 +82,12 @@ public class CameraFixedRotation : MonoBehaviour
         //changes cameras horizantal view
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
         {
-            xRotate -= 0.5f * Time.deltaTime;
+            xRotate -= 0.6f * Time.deltaTime;
             SetActive();
         }
         else if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
         {
-            xRotate += 0.5f * Time.deltaTime;
+            xRotate += 0.6f * Time.deltaTime;
             SetActive();
         }
 

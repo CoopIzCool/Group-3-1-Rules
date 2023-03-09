@@ -28,14 +28,17 @@ public class MouseRaycast : MonoBehaviour
     [SerializeField] private Image fovChanger;
     [SerializeField] private GameObject[] requiredInteractables;
     [SerializeField] private GameObject[] optionalInteractables;
-
+    [SerializeField] private LayerMask layerMask;
     // Inactive timer mechanics
     [SerializeField] private float inactiveTime;
     private float activeTimer;
     private bool mouseActive = true;
     #endregion Fields
+
+    #region Properties
     public AudioClip VictoryClip { get { return victoryClip; } }
     public bool MouseActive { get { return mouseActive; } }
+    #endregion Properties
 
     private void Start()
     {
@@ -104,7 +107,7 @@ public class MouseRaycast : MonoBehaviour
     {
         Debug.Log("Testing");
         mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if(Physics.Raycast(mouseRay, out hitInfo))
+        if(Physics.Raycast(mouseRay, out hitInfo,layerMask))
         {
             Debug.Log("Hit something");
             GameObject hitObject = hitInfo.collider.gameObject;
