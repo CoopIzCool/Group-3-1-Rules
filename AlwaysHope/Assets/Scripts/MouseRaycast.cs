@@ -55,7 +55,7 @@ public class MouseRaycast : MonoBehaviour
 
             //Clamp the position to prevent the object from falling out of bounds
             float clampedX = Mathf.Clamp(grabbedObject.transform.position.x, xBoundMin, xBoundMax);
-            Debug.Log(clampedX);
+            //Debug.Log(clampedX);
             float clampedY = Mathf.Clamp(grabbedObject.transform.position.y, 0.03f, 5);
             float clampedZ = Mathf.Clamp(grabbedObject.transform.position.z, zBound * -1, zBound);
             grabbedObject.transform.position = new Vector3(clampedX, clampedY, clampedZ);
@@ -102,16 +102,16 @@ public class MouseRaycast : MonoBehaviour
 
     private void RaycastTest()
     {
-        Debug.Log("Testing");
+        //Debug.Log("Testing");
         mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         if(Physics.Raycast(mouseRay, out hitInfo))
         {
-            Debug.Log("Hit something");
+            //Debug.Log("Hit something");
             GameObject hitObject = hitInfo.collider.gameObject;
-            Debug.Log(hitObject.name);
+            //Debug.Log(hitObject.name);
             if (hitObject.tag.Equals("Test"))
             {
-                Debug.Log("It should work");
+                //Debug.Log("It should work");
                 //hitObject.GetComponent<MeshRenderer>().material = materialTest;
             }
             if (hitObject.tag.Equals("Interactable"))
@@ -144,8 +144,8 @@ public class MouseRaycast : MonoBehaviour
             fovScaleX = fovChangerCanvas.GetComponent<RectTransform>().rect.width;
             fovScaleY = fovChangerCanvas.GetComponent<RectTransform>().rect.height;
         }
-        Debug.Log(fovScaleX);
-        Debug.Log(fovScaleY);
+        //Debug.Log(fovScaleX);
+        //Debug.Log(fovScaleY);
         fovChanger.rectTransform.sizeDelta = new Vector2(fovScaleX, fovScaleY);
         fovChanger.color = new Color(fovChanger.color.r, fovChanger.color.g, fovChanger.color.b, 200f / (interactableSolvedGoal - interactableSolvedCount));
 

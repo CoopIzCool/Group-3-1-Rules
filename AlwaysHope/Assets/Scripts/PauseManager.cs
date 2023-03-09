@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +12,15 @@ public class PauseManager : MonoBehaviour
     public void ReturnToMenu()
     {
         Time.timeScale = 1.0f;
-        GameObject.Find("GameManager").GetComponent<JSONHandler>().SaveToJSON();
+        try
+        {
+            GameObject.Find("GameManager").GetComponent<JSONHandler>().SaveToJSON();
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+        
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -20,7 +29,14 @@ public class PauseManager : MonoBehaviour
     /// </summary>
     public void ExitGame()
     {
-        GameObject.Find("GameManager").GetComponent<JSONHandler>().SaveToJSON();
+        try
+        {
+            GameObject.Find("GameManager").GetComponent<JSONHandler>().SaveToJSON();
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
         Application.Quit();
     }
 }

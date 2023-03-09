@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -76,7 +77,6 @@ public class JSONHandler : MonoBehaviour
         {
             dataTimer -= refreshRate;
             TrackValues();
-            Debug.Log("refresh");
         }
     }
 
@@ -136,7 +136,7 @@ public class JSONHandler : MonoBehaviour
                 }
             }
         }
-        catch (FileNotFoundException e)
+        catch (Exception e)
         {
             Debug.Log(e.Message);
         }
@@ -218,15 +218,21 @@ public class JSONHandler : MonoBehaviour
     }
     private void FinalizePositions()
     {
-        for(int i = 0; i < locationTracking.Count; i++)
+        for(int i = 0; i < trackableObjects.Count; i++)
         {
             if(trackableObjects[i] != null)
             {
-                foreach (KeyValuePair<string, int> kvp in trackableObjects[i].placedInteractablesDict)
+                if (trackableObjects[i].placedInteractablesDict != null)
                 {
-                    string str = kvp.Key;
-                    int index = trackableLocations.IndexOf(str);
-                    locationTracking[i].placement[index] += kvp.Value;
+                    foreach (KeyValuePair<string, int> kvp in trackableObjects[i].placedInteractablesDict)
+                    {
+                        string str = kvp.Key;
+                        int index = trackableLocations.IndexOf(str);
+                        if(index != -1)
+                        {
+                            locationTracking[i].placement[index] += kvp.Value;
+                        }
+                    }
                 }
             }
         }

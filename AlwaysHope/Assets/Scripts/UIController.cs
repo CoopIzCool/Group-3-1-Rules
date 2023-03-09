@@ -105,7 +105,7 @@ public class UIController : MonoBehaviour
     bool GetMouseClickMove()
     {
         bool mouseMove = (!mousePos.Equals(Input.mousePosition));
-        Debug.Log("Mouse Move: " + mouseMove);
+        //Debug.Log("Mouse Move: " + mouseMove);
         mousePos = Input.mousePosition;
         return Input.GetMouseButton(0) && mouseMove;
     }

@@ -56,7 +56,7 @@ public class Interactables : MonoBehaviour
     {
         if (!placedInteractablesDict.ContainsKey(collision.gameObject.name)) // If the object it is currently colliding with is not in the list already, then add it to the list.
         {
-            Debug.Log(collision.gameObject.name);
+            //Debug.Log(collision.gameObject.name);
             placedInteractablesDict.Add(collision.gameObject.name, 1);
             if (collision.gameObject == targetObject) // Checking to see if the object is our target object
             {
@@ -98,7 +98,7 @@ public class Interactables : MonoBehaviour
                 }
                 if (mouseRay.interactableSolvedCount == mouseRay.interactableSolvedGoal)
                 {
-                    Debug.Log("completed level");
+                    //Debug.Log("completed level");
                     StartCoroutine(PlayVictory(mouseRay.VictoryClip.length));
                 }
             }
