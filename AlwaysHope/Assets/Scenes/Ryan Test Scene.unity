@@ -270,7 +270,18 @@ MonoBehaviour:
   materialTest: {fileID: 2100000, guid: 6389b6aa468d6654183d77270d9e5d19, type: 2}
   grabbedObject: {fileID: 0}
   grabbedScreenPos: {x: 0, y: 0, z: 0}
+  fovChangerCanvas: {fileID: 0}
   cameraRotationScript: {fileID: 1676414604}
+  interactableSolvedCount: 0
+  interactableSolvedGoal: 1
+  optionalInteractableSolvedCount: 0
+  optionalInteractableSolvedGoal: 1
+  endScreen: {fileID: 0}
+  victoryClip: {fileID: 0}
+  fovChanger: {fileID: 0}
+  requiredInteractables: []
+  optionalInteractables: []
+  inactiveTime: 0
 --- !u!4 &421130573
 Transform:
   m_ObjectHideFlags: 0
@@ -459,8 +470,16 @@ MonoBehaviour:
   timedLocations: []
   isSolved: 0
   isPositive: 0
+  secondaryTarget: {fileID: 0}
+  isPreReqMet: 1
+  isRequired: 0
   src: {fileID: 1765502187}
   solvedClip: {fileID: 8300000, guid: 57d3958d8795f4a48916610ccd0b52ef, type: 3}
+  mouse: {fileID: 0}
+  placedMesh: {fileID: 0}
+  intName: 
+  trackTime: 0
+  paused: 0
 --- !u!65 &1440252583
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -738,6 +757,65 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 3
+  centerPoint: {fileID: 0}
+  inactiveTime: 0
+--- !u!1001 &1684022692
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 9122523779517122416, guid: c0351392216f3554b8ff993918b177f1, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122523779517122416, guid: c0351392216f3554b8ff993918b177f1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.3037413
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122523779517122416, guid: c0351392216f3554b8ff993918b177f1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -10.135376
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122523779517122416, guid: c0351392216f3554b8ff993918b177f1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 18.59409
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122523779517122416, guid: c0351392216f3554b8ff993918b177f1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122523779517122416, guid: c0351392216f3554b8ff993918b177f1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122523779517122416, guid: c0351392216f3554b8ff993918b177f1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122523779517122416, guid: c0351392216f3554b8ff993918b177f1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122523779517122416, guid: c0351392216f3554b8ff993918b177f1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122523779517122416, guid: c0351392216f3554b8ff993918b177f1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122523779517122416, guid: c0351392216f3554b8ff993918b177f1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193626048175838613, guid: c0351392216f3554b8ff993918b177f1, type: 3}
+      propertyPath: m_Name
+      value: BackgroundMusic
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c0351392216f3554b8ff993918b177f1, type: 3}
 --- !u!1 &1690738183
 GameObject:
   m_ObjectHideFlags: 0
@@ -867,6 +945,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseKey: 27
   pauseMenu: {fileID: 889452388}
+  canvasGroups: []
+  fadeRate: 1
+  objects: []
+  mousePos: {x: 0, y: 0}
+  currentStep: 0
 --- !u!4 &1765502186
 Transform:
   m_ObjectHideFlags: 0
