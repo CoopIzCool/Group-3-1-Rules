@@ -52,12 +52,12 @@ public class CameraFixedRotation : MonoBehaviour
         //increments counter;
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
-            counter += 20.0f * Time.deltaTime;
+            counter += 30.0f * Time.deltaTime;
             SetActive();
         }
         else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
-            counter -= 20.0f * Time.deltaTime;
+            counter -= 30.0f * Time.deltaTime;
             SetActive();
         }
 

@@ -13,8 +13,8 @@ public class MouseRaycast : MonoBehaviour
     public GameObject grabbedObject;
     public Vector3 grabbedScreenPos;
     private float zDepth = 0;
-    private float xBoundMin = -10.3f;
-    private float xBoundMax = 5.9f;
+    private float xBoundMin = -8f;
+    private float xBoundMax = 8f;
     private float zBound = 6.3f;
     public GameObject fovChangerCanvas;
     [SerializeField]
@@ -71,11 +71,11 @@ public class MouseRaycast : MonoBehaviour
             //Scroll depth of the zPosition 
             if (Input.mouseScrollDelta.y > 0.0f )
             {
-                zDepth += 0.2f;
+                zDepth += 0.4f;
             }
             else if (Input.mouseScrollDelta.y < 0.0f )
             {
-                zDepth -= 0.2f;
+                zDepth -= 0.4f;
             }
         }
         else
