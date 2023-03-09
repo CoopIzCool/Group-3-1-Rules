@@ -36,6 +36,8 @@ public class MouseRaycast : MonoBehaviour
     #endregion Fields
     public AudioClip VictoryClip { get { return victoryClip; } }
     public bool MouseActive { get { return mouseActive; } }
+    public GameObject[] RequiredInteractables { get { return requiredInteractables; } }
+    public GameObject[] OptionalInteractables { get { return optionalInteractables; } }
 
     private void Start()
     {
