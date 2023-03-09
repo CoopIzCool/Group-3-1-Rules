@@ -2256,7 +2256,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &248294276
 Transform:
   m_ObjectHideFlags: 0
@@ -5880,7 +5880,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8469494145858465668, guid: 3cbfa8f66cf8d3c4e9192508e58b5f96, type: 3}
+  - {fileID: 2100000, guid: 6389b6aa468d6654183d77270d9e5d19, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13825,11 +13825,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3cbfa8f66cf8d3c4e9192508e58b5f96, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.7415478
+      value: 1.246983
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3cbfa8f66cf8d3c4e9192508e58b5f96, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.9018488
+      value: 3.2873456
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3cbfa8f66cf8d3c4e9192508e58b5f96, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13837,11 +13837,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3cbfa8f66cf8d3c4e9192508e58b5f96, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.76
+      value: -1.98
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3cbfa8f66cf8d3c4e9192508e58b5f96, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.88
+      value: -5.645
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3cbfa8f66cf8d3c4e9192508e58b5f96, type: 3}
       propertyPath: m_LocalRotation.w
