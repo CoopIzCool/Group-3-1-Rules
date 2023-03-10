@@ -98,7 +98,7 @@ public class Interactables : MonoBehaviour
                 }
                 if (mouseRay.interactableSolvedCount == mouseRay.interactableSolvedGoal)
                 {
-                    Debug.Log("completed level");
+                    //Debug.Log("completed level");
                     StartCoroutine(PlayVictory(mouseRay.VictoryClip.length));
                 }
             }

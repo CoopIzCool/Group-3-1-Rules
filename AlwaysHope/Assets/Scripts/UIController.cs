@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
@@ -11,7 +12,12 @@ public class UIController : MonoBehaviour
     [SerializeField] private List<CanvasGroup> canvasGroups;
     [SerializeField] private float fadeRate = 1.0f;
 
-    [SerializeField] private List<Interactables> objects;
+    [SerializeField] private MouseRaycast raycastMgr;
+    [SerializeField] private List<Image> checklist;
+    [SerializeField] private Sprite checkSprite;
+    [SerializeField] private Sprite crossSprite;
+    private List<bool> solvedList = new List<bool>();
+
 
     private bool fadeIn = false;
     private bool fadeOut = false;
@@ -24,11 +30,9 @@ public class UIController : MonoBehaviour
         {
             canvasGroups[i].alpha = 0;
         }
-        objects = new List<Interactables>();
-        GameObject[] tempList = GameObject.FindGameObjectsWithTag("Interactable");
-        foreach(GameObject obj in tempList)
+        foreach(Image image in checklist)
         {
-            objects.Add(obj.GetComponent<Interactables>());
+            solvedList.Add(true);
         }
     }
 
@@ -37,17 +41,80 @@ public class UIController : MonoBehaviour
         if (Input.GetKeyDown(pauseKey))
         {
             paused = !paused;
-            for(int i = 0; i < objects.Count; i++)
+            for(int i = 0; i < raycastMgr.RequiredInteractables.Length; i++)
             {
-                if(objects[i] != null)
+                if(raycastMgr.RequiredInteractables[i] != null)
                 {
-                    objects[i].paused = paused;
+                    raycastMgr.RequiredInteractables[i].GetComponent<Interactables>().paused = paused;
+                }
+            }
+            for(int j = 0; j < raycastMgr.OptionalInteractables.Length; j++)
+            {
+                if (raycastMgr.OptionalInteractables[j] != null)
+                {
+                    raycastMgr.OptionalInteractables[j].GetComponent<Interactables>().paused = paused;
                 }
             }
             Time.timeScale = paused ? 0f : 1f; // If paused is true, stop time scale, if it is false, set the timescale to normal values
             pauseMenu.SetActive(paused);
         }
-        if(currentStep < 5)
+        // Check if objectives are solved
+        for (int i = 0; i < raycastMgr.OptionalInteractables.Length; i++)
+        {
+            if (!raycastMgr.OptionalInteractables[i].GetComponent<Interactables>().isSolved)
+            {
+                solvedList[4] = false;
+                break;
+            }
+        }
+        bool photosSolved = true;
+        bool laundrySolved = true;
+        bool bookSolved = true;
+        bool headphonesSolved = true;
+        for (int j = 0; j < raycastMgr.RequiredInteractables.Length; j++)
+        {
+            //0 - 2 = photos
+            if(j <= 2)
+            {
+                if(photosSolved)
+                {
+                    photosSolved = raycastMgr.RequiredInteractables[j].GetComponent<Interactables>().isSolved;
+                    solvedList[0] = photosSolved;
+                }
+            }
+            //3 - 6 = laundry
+            if (j >= 3 && j <= 6)
+            {
+                if (laundrySolved)
+                {
+                    laundrySolved = raycastMgr.RequiredInteractables[j].GetComponent<Interactables>().isSolved;
+                    solvedList[1] = laundrySolved;
+                }
+            }
+            //7 - 10 = books
+            if (j >= 7 && j <= 10)
+            {
+                if (bookSolved)
+                {
+                    bookSolved = raycastMgr.RequiredInteractables[j].GetComponent<Interactables>().isSolved;
+                    solvedList[2] = bookSolved;
+                }
+            }
+            //11 = headphones
+            if (j == 11)
+            {
+                if (headphonesSolved)
+                {
+                    headphonesSolved = raycastMgr.RequiredInteractables[j].GetComponent<Interactables>().isSolved;
+                    solvedList[3] = headphonesSolved;
+                }
+            }
+        }
+        for (int i = 0; i < checklist.Count; i++)
+        {
+            checklist[i].sprite = (solvedList[i] ? checkSprite : crossSprite);
+        }
+        if (currentStep < 6)
         {
             switch(currentStep)
             {
@@ -105,8 +172,13 @@ public class UIController : MonoBehaviour
     bool GetMouseClickMove()
     {
         bool mouseMove = (!mousePos.Equals(Input.mousePosition));
-        Debug.Log("Mouse Move: " + mouseMove);
+        //Debug.Log("Mouse Move: " + mouseMove);
         mousePos = Input.mousePosition;
         return Input.GetMouseButton(0) && mouseMove;
+    }
+
+    void SetSprite()
+    {
+
     }
 }

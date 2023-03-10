@@ -38,6 +38,8 @@ public class MouseRaycast : MonoBehaviour
     #region Properties
     public AudioClip VictoryClip { get { return victoryClip; } }
     public bool MouseActive { get { return mouseActive; } }
+    public GameObject[] RequiredInteractables { get { return requiredInteractables; } }
+    public GameObject[] OptionalInteractables { get { return optionalInteractables; } }
     #endregion Properties
 
     private void Start()
@@ -58,7 +60,7 @@ public class MouseRaycast : MonoBehaviour
 
             //Clamp the position to prevent the object from falling out of bounds
             float clampedX = Mathf.Clamp(grabbedObject.transform.position.x, xBoundMin, xBoundMax);
-            Debug.Log(clampedX);
+            //Debug.Log(clampedX);
             float clampedY = Mathf.Clamp(grabbedObject.transform.position.y, 0.03f, 5);
             float clampedZ = Mathf.Clamp(grabbedObject.transform.position.z, zBound * -1, zBound);
             grabbedObject.transform.position = new Vector3(clampedX, clampedY, clampedZ);
@@ -105,16 +107,16 @@ public class MouseRaycast : MonoBehaviour
 
     private void RaycastTest()
     {
-        Debug.Log("Testing");
+        //Debug.Log("Testing");
         mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         if(Physics.Raycast(mouseRay, out hitInfo,layerMask))
         {
-            Debug.Log("Hit something");
+            //Debug.Log("Hit something");
             GameObject hitObject = hitInfo.collider.gameObject;
-            Debug.Log(hitObject.name);
+            //Debug.Log(hitObject.name);
             if (hitObject.tag.Equals("Test"))
             {
-                Debug.Log("It should work");
+                //Debug.Log("It should work");
                 //hitObject.GetComponent<MeshRenderer>().material = materialTest;
             }
             if (hitObject.tag.Equals("Interactable"))
