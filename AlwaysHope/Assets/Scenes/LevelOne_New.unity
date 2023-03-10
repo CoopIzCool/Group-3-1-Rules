@@ -8128,14 +8128,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7979214256251964889, guid: 81bb156afb1d7fa4ab577080347d0788, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7979214256251964889, guid: 81bb156afb1d7fa4ab577080347d0788, type: 3}
-      propertyPath: m_AdditionalShaderChannelsFlag
-      value: 25
-      objectReference: {fileID: 0}
     - target: {fileID: 7979214256251964892, guid: 81bb156afb1d7fa4ab577080347d0788, type: 3}
       propertyPath: m_Pivot.x
       value: 0
